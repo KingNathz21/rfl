@@ -2,84 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071d49">
   <title>RouteFlow London</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰ RouteFlow London</button>
   <div class="app-shell">
-    <aside class="sidebar" aria-label="Primary navigation">
-      <a class="brand" href="#dashboard" data-route="dashboard" aria-label="RouteFlow London dashboard">
-        <img src="assets/routeflow-london-logo.svg" alt="RouteFlow London logo">
-        <span><strong>RouteFlow London</strong><small>Transport intelligence demo</small></span>
-      </a>
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#dashboard" data-route="dashboard" aria-label="RouteFlow London dashboard"><img src="assets/routeflow-london-logo.svg" alt="RouteFlow London logo"><span><strong>RouteFlow London</strong><small>Live TfL-ready intelligence</small></span></a>
       <nav class="nav-list">
-        <button class="nav-item active" data-route="dashboard">Dashboard</button>
-        <button class="nav-item" data-route="boards">Stop Boards</button>
-        <button class="nav-item" data-route="fleet">Fleet</button>
-        <button class="nav-item" data-route="routes">Routes</button>
-        <button class="nav-item" data-route="map">Live Map</button>
-        <button class="nav-item" data-route="sightings">Sightings</button>
-        <button class="nav-item" data-route="analytics">Analytics</button>
-        <button class="nav-item" data-route="admin">Admin / Imports</button>
+        <button class="nav-item active" data-route="dashboard">Dashboard</button><button class="nav-item" data-route="live">Live TfL</button><button class="nav-item" data-route="journey">Journey Planner</button><button class="nav-item" data-route="boards">Stop Boards</button><button class="nav-item" data-route="fleet">Fleet</button><button class="nav-item" data-route="routes">Routes</button><button class="nav-item" data-route="map">Live Map</button><button class="nav-item" data-route="sightings">Sightings</button><button class="nav-item" data-route="analytics">Analytics</button><button class="nav-item" data-route="admin">Admin / Imports</button>
       </nav>
       <div class="profile-chip"><span class="avatar">NM</span><span><strong>Demo admin</strong><small>All demo permissions</small></span></div>
     </aside>
-
     <main class="main-panel">
-      <header class="topbar">
-        <label class="global-search"><span>Global search</span><input id="globalSearch" type="search" placeholder="Search fleet, reg, stop, route, operator, board"></label>
-        <div class="topbar-actions">
-          <button class="ghost-button" data-open-auth="login">Log in</button>
-          <button class="solid-button" data-open-auth="register">Register</button>
-        </div>
-      </header>
+      <header class="topbar"><label class="global-search"><span>Global search</span><input id="globalSearch" type="search" placeholder="Search fleet, route, stop, board or operator"></label><div class="topbar-actions"><button class="ghost-button" data-open-auth="login">Log in</button><button class="solid-button" data-open-auth="register">Register</button></div></header>
       <section id="searchResults" class="search-results hidden" aria-live="polite"></section>
 
-      <section class="view active" id="dashboardView">
-        <section class="hero-banner">
-          <div class="hero-copy">
-            <p class="eyebrow">Demo mode · red, white and blue theme</p>
-            <h1>RouteFlow London</h1>
-            <p class="hero-text">A clean London bus fleet, stop board, route, sightings, analytics and admin hub. This demo uses sample data now, ready for TfL API and database connections later.</p>
-            <div class="hero-actions"><button class="solid-button" data-jump-route="boards">Open stop boards</button><button class="hero-button" data-jump-route="fleet">Explore fleet</button></div>
-          </div>
-          <div class="hero-network-card"><img src="assets/routeflow-london-logo.svg" alt=""><span class="status-pill demo">Demo data</span><strong>RouteFlow London</strong><small>Not an official TfL product. Live data connection planned.</small></div>
-        </section>
-        <section class="notice-card"><strong>Data policy:</strong> fleet profiles and sightings avoid maintenance, engineering-condition or fault language. Facts show their source: demo, user-entered, imported or TfL-ready.</section>
-        <div class="stats-grid" id="statsGrid"></div>
-        <div class="dashboard-grid">
-          <section class="panel"><div class="panel-heading"><h2>Recent activity</h2><span class="status-pill good">Live demo</span></div><ul class="activity-list" id="activityFeed"></ul></section>
-          <section class="panel"><div class="panel-heading"><h2>Network status</h2><button class="ghost-button" id="refreshLiveData">Refresh</button></div><div class="network-list" id="networkStatus"></div></section>
-        </div>
-        <section class="content-preview-grid" id="contentPreviewGrid"></section>
-      </section>
+      <section class="view active" id="dashboardView"><section class="hero-banner"><div class="hero-copy"><p class="eyebrow">Phase 2 · live TfL-ready</p><h1>RouteFlow London</h1><p class="hero-text">A red, white and blue London bus intelligence website with live stop search, arrivals, bus-mode status and journey planner panels. Demo data remains as a fallback when TfL calls are unavailable.</p><div class="hero-actions"><button class="solid-button" data-jump-route="live">Try live TfL</button><button class="hero-button" data-jump-route="journey">Plan journey</button></div></div><div class="hero-network-card"><img src="assets/routeflow-london-logo.svg" alt=""><span class="status-pill demo">Phase 2</span><strong>Mobile + desktop ready</strong><small>Responsive from phones to wide monitors.</small></div></section><section class="notice-card"><strong>Attribution:</strong> when live calls work, data is provided by Transport for London. RouteFlow London is not an official TfL product.</section><div class="stats-grid" id="statsGrid"></div><div class="dashboard-grid"><section class="panel"><div class="panel-heading"><h2>Recent activity</h2><span class="status-pill good">Live-ready</span></div><ul class="activity-list" id="activityFeed"></ul></section><section class="panel"><div class="panel-heading"><h2>Network status</h2><button class="ghost-button" id="refreshLiveData">Refresh TfL</button></div><div class="network-list" id="networkStatus"></div></section></div><section class="content-preview-grid" id="contentPreviewGrid"></section></section>
 
-      <section class="view" id="boardsView">
-        <div class="section-heading"><div><p class="eyebrow">Favourite stops</p><h1>Stop Boards</h1></div><button class="solid-button" id="addBoard">Add board</button></div>
-        <div class="boards-layout"><section class="panel"><div class="panel-heading"><h2>Boards</h2><span class="muted">20s refresh-ready</span></div><div id="boardList" class="board-list"></div></section><section class="panel"><div class="panel-heading"><h2 id="activeBoardName">Board</h2><button class="ghost-button" id="renameBoard">Rename</button></div><form class="inline-form" id="addStopForm"><input id="stopInput" placeholder="Add stop name or code"><button class="solid-button" type="submit">Add stop</button></form><div id="stopArrivals" class="arrival-list"></div></section></div>
-      </section>
+      <section class="view" id="liveView"><div class="section-heading"><div><p class="eyebrow">TfL live data</p><h1>Live Stop Search & Arrivals</h1></div><span class="status-pill demo" id="liveModeBadge">Demo fallback ready</span></div><section class="panel live-search-panel"><form id="liveStopForm" class="inline-form"><input id="liveStopQuery" placeholder="Search a stop, e.g. Rye Hill Park, Bank, Waterloo"><button class="solid-button" type="submit">Search stops</button></form><div id="liveStopResults" class="live-results"></div></section><section class="panel"><div class="panel-heading"><h2 id="selectedStopTitle">Select a stop</h2><button class="ghost-button" id="refreshArrivals">Refresh arrivals</button></div><div id="liveArrivals" class="arrival-list"><p class="muted">Search for a stop, select one, then arrivals will appear here.</p></div></section></section>
 
-      <section class="view" id="fleetView">
-        <div class="section-heading"><div><p class="eyebrow">Searchable registry</p><h1>Fleet Database</h1></div><div class="filter-row"><select id="operatorFilter"></select><select id="fuelFilter"></select><select id="statusFilter"></select></div></div>
-        <section class="panel table-panel"><div class="table-toolbar"><label><span>Fleet search</span><input id="fleetSearch" type="search" placeholder="Search fleet number, reg, type or garage"></label><button class="ghost-button" id="exportFleet">Export CSV</button><span id="fleetCount" class="muted"></span></div><div class="table-wrap"><table><thead><tr><th><button class="sort-button" data-sort="fleetNumber">Fleet</button></th><th><button class="sort-button" data-sort="registration">Registration</button></th><th><button class="sort-button" data-sort="operator">Operator</button></th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th><button class="sort-button" data-sort="lastSeen">Last seen</button></th></tr></thead><tbody id="fleetTable"></tbody></table></div><div class="pagination"><button class="ghost-button" id="prevPage">Previous</button><span id="pageLabel"></span><button class="ghost-button" id="nextPage">Next</button></div></section>
-      </section>
+      <section class="view" id="journeyView"><div class="section-heading"><div><p class="eyebrow">Journey planner</p><h1>Plan a Journey</h1></div></div><section class="panel"><form id="journeyForm" class="journey-form"><input id="journeyFrom" placeholder="From e.g. Peckham"><input id="journeyTo" placeholder="To e.g. Oxford Circus"><button class="solid-button" type="submit">Find routes</button></form><div id="journeyResults" class="routes-grid"></div></section></section>
 
-      <section class="view" id="routesView"><div class="section-heading"><div><p class="eyebrow">Route intelligence</p><h1>Routes</h1></div><input id="routeSearch" class="small-search" placeholder="Filter routes"></div><div id="routesGrid" class="routes-grid"></div></section>
-
+      <section class="view" id="boardsView"><div class="section-heading"><div><p class="eyebrow">Favourite stops</p><h1>Stop Boards</h1></div><button class="solid-button" id="addBoard">Add board</button></div><div class="boards-layout"><section class="panel"><div class="panel-heading"><h2>Boards</h2><span class="muted">20s refresh-ready</span></div><div id="boardList" class="board-list"></div></section><section class="panel"><div class="panel-heading"><h2 id="activeBoardName">Board</h2><button class="ghost-button" id="renameBoard">Rename</button></div><form class="inline-form" id="addStopForm"><input id="stopInput" placeholder="Add stop name or code"><button class="solid-button" type="submit">Add stop</button></form><div id="stopArrivals" class="arrival-list"></div></section></div></section>
+      <section class="view" id="fleetView"><div class="section-heading"><div><p class="eyebrow">Searchable registry</p><h1>Fleet Database</h1></div><div class="filter-row"><select id="operatorFilter"></select><select id="fuelFilter"></select><select id="statusFilter"></select></div></div><section class="panel table-panel"><div class="table-toolbar"><label><span>Fleet search</span><input id="fleetSearch" type="search" placeholder="Search fleet number, reg, type or garage"></label><button class="ghost-button" id="exportFleet">Export CSV</button><span id="fleetCount" class="muted"></span></div><div class="table-wrap"><table><thead><tr><th><button class="sort-button" data-sort="fleetNumber">Fleet</button></th><th><button class="sort-button" data-sort="registration">Registration</button></th><th><button class="sort-button" data-sort="operator">Operator</button></th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th><button class="sort-button" data-sort="lastSeen">Last seen</button></th></tr></thead><tbody id="fleetTable"></tbody></table></div><div class="pagination"><button class="ghost-button" id="prevPage">Previous</button><span id="pageLabel"></span><button class="ghost-button" id="nextPage">Next</button></div></section></section>
+      <section class="view" id="routesView"><div class="section-heading"><div><p class="eyebrow">Route intelligence</p><h1>Routes</h1></div><div class="filter-row"><input id="routeSearch" class="small-search" placeholder="Filter routes"><button class="ghost-button" id="loadRouteStatus">Load TfL bus status</button></div></div><div id="routesGrid" class="routes-grid"></div></section>
       <section class="view" id="mapView"><div class="section-heading"><div><p class="eyebrow">Operations view</p><h1>Live Map</h1></div><div class="legend"><span><i class="dot bus"></i>Vehicle</span><span><i class="dot stop"></i>Stop</span><span><i class="dot favourite"></i>Favourite</span></div></div><section class="map-panel" aria-label="Live map demo"><div class="route-line route-line-a"></div><div class="route-line route-line-b"></div><button class="map-marker bus-marker" style="--x:24%;--y:36%">LTZ 1045</button><button class="map-marker bus-marker" style="--x:63%;--y:58%">EV 9801</button><button class="map-marker stop-marker" style="--x:38%;--y:70%">Waterloo</button><button class="map-marker stop-marker favourite-marker" style="--x:71%;--y:31%">Bank</button><div class="map-attribution">Map placeholder · Leaflet/TfL-ready</div></section></section>
-
       <section class="view" id="sightingsView"><div class="section-heading"><div><p class="eyebrow">Manual + automatic records</p><h1>Sightings</h1></div></div><div class="sighting-layout"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked-form"><input id="sightingFleet" placeholder="Fleet number"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo link"><button class="solid-button" type="submit">Record sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Previous sightings</h2><button class="ghost-button" id="exportSightings">Export CSV</button></div><div id="sightingList" class="sighting-list"></div></section></div></section>
-
       <section class="view" id="analyticsView"><div class="section-heading"><div><p class="eyebrow">Non-maintenance intelligence</p><h1>Analytics</h1></div></div><div id="analyticsGrid" class="routes-grid"></div></section>
-
       <section class="view" id="adminView"><div class="section-heading"><div><p class="eyebrow">Management demo</p><h1>Admin / Imports</h1></div></div><div class="admin-tabs" role="tablist"><button class="admin-tab active" data-admin-tab="dashboard">Dashboard</button><button class="admin-tab" data-admin-tab="fleet">Fleet</button><button class="admin-tab" data-admin-tab="csv">CSV Import</button><button class="admin-tab" data-admin-tab="users">Users</button><button class="admin-tab" data-admin-tab="settings">Settings</button><button class="admin-tab" data-admin-tab="audit">Audit</button></div><div id="adminContent"></div></section>
     </main>
   </div>
-
-  <dialog id="busDialog" class="profile-dialog"><button class="dialog-close" id="closeBusDialog" aria-label="Close">×</button><div id="busProfile"></div></dialog>
-  <dialog id="authDialog" class="auth-dialog"><button class="dialog-close" id="closeAuthDialog" aria-label="Close">×</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Login</button><button class="auth-tab" data-auth-tab="register">Register</button><button class="auth-tab" data-auth-tab="reset">Reset</button><button class="auth-tab" data-auth-tab="profile">Profile</button></div><form id="authForm" class="stacked-form"></form></dialog>
-  <footer class="footer">RouteFlow London demo. Data attribution area: Data provided by Transport for London when live API is connected.</footer>
-  <script src="app.js"></script>
+  <dialog id="busDialog" class="profile-dialog"><button class="dialog-close" id="closeBusDialog" aria-label="Close">×</button><div id="busProfile"></div></dialog><dialog id="authDialog" class="auth-dialog"><button class="dialog-close" id="closeAuthDialog" aria-label="Close">×</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Login</button><button class="auth-tab" data-auth-tab="register">Register</button><button class="auth-tab" data-auth-tab="reset">Reset</button><button class="auth-tab" data-auth-tab="profile">Profile</button></div><form id="authForm" class="stacked-form"></form></dialog><footer class="footer">RouteFlow London demo. Data provided by Transport for London when live API calls are used.</footer><script src="app.js"></script>
 </body>
 </html>
