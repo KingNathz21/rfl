@@ -1,0 +1,1 @@
+{"scripts":{"start":"node server.js","dev":"node server.js"},"dependencies":{},"devDependencies":{},"engines":{"node":">=18"},"name":"routeflow-london","version":"1.0.0","description":"RouteFlow London transport intelligence hub"}
