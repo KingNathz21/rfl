@@ -1,281 +1,85 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Routeflow LDN</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Primary navigation">
-        <a class="brand" href="#dashboard" data-route="dashboard" aria-label="Routeflow dashboard">
-          <span class="brand-mark">RF</span>
-          <span>
-            <strong>Routeflow</strong>
-            <small>London fleet intelligence</small>
-          </span>
-        </a>
-        <nav class="nav-list">
-          <button class="nav-item active" data-route="dashboard">Home</button>
-          <button class="nav-item" data-route="fleet">Fleet Database</button>
-          <button class="nav-item" data-route="boards">Stop Boards</button>
-          <button class="nav-item" data-route="routes">Routes</button>
-          <button class="nav-item" data-route="map">Live Map</button>
-          <button class="nav-item" data-route="sightings">Sightings</button>
-          <button class="nav-item" data-route="admin">Admin Panel</button>
-        </nav>
-        <div class="profile-chip">
-          <span class="avatar">NM</span>
-          <span>
-            <strong>Admin user</strong>
-            <small>All permissions</small>
-          </span>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RouteFlow London</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#dashboard" data-route="dashboard" aria-label="RouteFlow London dashboard">
+        <img src="assets/routeflow-london-logo.svg" alt="RouteFlow London logo">
+        <span><strong>RouteFlow London</strong><small>Transport intelligence demo</small></span>
+      </a>
+      <nav class="nav-list">
+        <button class="nav-item active" data-route="dashboard">Dashboard</button>
+        <button class="nav-item" data-route="boards">Stop Boards</button>
+        <button class="nav-item" data-route="fleet">Fleet</button>
+        <button class="nav-item" data-route="routes">Routes</button>
+        <button class="nav-item" data-route="map">Live Map</button>
+        <button class="nav-item" data-route="sightings">Sightings</button>
+        <button class="nav-item" data-route="analytics">Analytics</button>
+        <button class="nav-item" data-route="admin">Admin / Imports</button>
+      </nav>
+      <div class="profile-chip"><span class="avatar">NM</span><span><strong>Demo admin</strong><small>All demo permissions</small></span></div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <label class="global-search"><span>Global search</span><input id="globalSearch" type="search" placeholder="Search fleet, reg, stop, route, operator, board"></label>
+        <div class="topbar-actions">
+          <button class="ghost-button" data-open-auth="login">Log in</button>
+          <button class="solid-button" data-open-auth="register">Register</button>
         </div>
-      </aside>
+      </header>
+      <section id="searchResults" class="search-results hidden" aria-live="polite"></section>
 
-      <main class="main-panel">
-        <header class="topbar">
-          <label class="global-search">
-            <span>Search</span>
-            <input id="globalSearch" type="search" placeholder="Fleet, reg, stop, route, operator, garage">
-          </label>
-          <div class="topbar-actions">
-            <button class="ghost-button" data-open-auth="login">Log in</button>
-            <button class="solid-button" data-open-auth="register">Register</button>
+      <section class="view active" id="dashboardView">
+        <section class="hero-banner">
+          <div class="hero-copy">
+            <p class="eyebrow">Demo mode · red, white and blue theme</p>
+            <h1>RouteFlow London</h1>
+            <p class="hero-text">A clean London bus fleet, stop board, route, sightings, analytics and admin hub. This demo uses sample data now, ready for TfL API and database connections later.</p>
+            <div class="hero-actions"><button class="solid-button" data-jump-route="boards">Open stop boards</button><button class="hero-button" data-jump-route="fleet">Explore fleet</button></div>
           </div>
-        </header>
-
-        <section id="searchResults" class="search-results hidden" aria-live="polite"></section>
-
-        <section class="view active" id="dashboardView">
-          <section class="hero-banner">
-            <div class="hero-copy">
-              <p class="eyebrow">Official-style London bus tracking</p>
-              <h1>Routeflow LDN</h1>
-              <p class="hero-text">A professional fleet, route, stop board, and sightings platform built for tracking London buses from one clean place.</p>
-              <div class="hero-actions">
-                <button class="solid-button" data-jump-route="fleet">Explore fleet</button>
-                <button class="hero-button" data-jump-route="map">View live map</button>
-              </div>
-            </div>
-            <div class="hero-network-card" aria-label="London bus network summary">
-              <span class="status-pill good">Network baseline</span>
-              <strong>675</strong>
-              <span>current London bus routes</span>
-              <small>Approximate 2025 public figure. Live route counts will come from TfL once connected.</small>
-            </div>
-          </section>
-
-          <section class="about-section">
-            <div>
-              <p class="eyebrow">About us</p>
-              <h2>Built to replace spreadsheet tracking with a proper transport intelligence hub.</h2>
-            </div>
-            <p>Routeflow LDN brings fleet records, sightings, favourite stop boards, route notes, photos, and admin tools into one modern website. It is designed for daily tracking first, with room to grow into alerts, rarity scoring, allocation intelligence, and replay-by-day analysis.</p>
-          </section>
-
-          <section class="content-preview-grid" id="contentPreviewGrid"></section>
-
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Tracking summary</p>
-              <h1>London Network Snapshot</h1>
-            </div>
-            <button class="solid-button" id="refreshLiveData">Refresh live data</button>
-          </div>
-          <div class="stats-grid" id="statsGrid"></div>
-          <div class="dashboard-grid">
-            <section class="panel">
-              <div class="panel-heading">
-                <h2>Recent Activity</h2>
-                <span class="status-pill">Today</span>
-              </div>
-              <ul class="activity-list" id="activityFeed"></ul>
-            </section>
-            <section class="panel">
-              <div class="panel-heading">
-                <h2>Network Status</h2>
-                <span class="status-pill good">Operational</span>
-              </div>
-              <div class="network-list" id="networkStatus"></div>
-            </section>
-          </div>
+          <div class="hero-network-card"><img src="assets/routeflow-london-logo.svg" alt=""><span class="status-pill demo">Demo data</span><strong>RouteFlow London</strong><small>Not an official TfL product. Live data connection planned.</small></div>
         </section>
+        <section class="notice-card"><strong>Data policy:</strong> fleet profiles and sightings avoid maintenance, engineering-condition or fault language. Facts show their source: demo, user-entered, imported or TfL-ready.</section>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="dashboard-grid">
+          <section class="panel"><div class="panel-heading"><h2>Recent activity</h2><span class="status-pill good">Live demo</span></div><ul class="activity-list" id="activityFeed"></ul></section>
+          <section class="panel"><div class="panel-heading"><h2>Network status</h2><button class="ghost-button" id="refreshLiveData">Refresh</button></div><div class="network-list" id="networkStatus"></div></section>
+        </div>
+        <section class="content-preview-grid" id="contentPreviewGrid"></section>
+      </section>
 
-        <section class="view" id="fleetView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Searchable registry</p>
-              <h1>Fleet Database</h1>
-            </div>
-            <div class="filter-row">
-              <select id="operatorFilter" aria-label="Filter operator"></select>
-              <select id="fuelFilter" aria-label="Filter fuel type"></select>
-              <select id="statusFilter" aria-label="Filter status"></select>
-            </div>
-          </div>
-          <section class="panel table-panel">
-            <div class="table-toolbar">
-              <label>
-                <span>Fleet search</span>
-                <input id="fleetSearch" type="search" placeholder="Search fleet number or registration">
-              </label>
-              <span id="fleetCount" class="muted"></span>
-            </div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th><button class="sort-button" data-sort="fleetNumber">Fleet Number</button></th>
-                    <th><button class="sort-button" data-sort="registration">Registration</button></th>
-                    <th><button class="sort-button" data-sort="operator">Operator</button></th>
-                    <th>Garage</th>
-                    <th>Vehicle Type</th>
-                    <th>Fuel Type</th>
-                    <th>Status</th>
-                    <th><button class="sort-button" data-sort="lastSeen">Last Seen</button></th>
-                  </tr>
-                </thead>
-                <tbody id="fleetTable"></tbody>
-              </table>
-            </div>
-            <div class="pagination">
-              <button class="ghost-button" id="prevPage">Previous</button>
-              <span id="pageLabel"></span>
-              <button class="ghost-button" id="nextPage">Next</button>
-            </div>
-          </section>
-        </section>
+      <section class="view" id="boardsView">
+        <div class="section-heading"><div><p class="eyebrow">Favourite stops</p><h1>Stop Boards</h1></div><button class="solid-button" id="addBoard">Add board</button></div>
+        <div class="boards-layout"><section class="panel"><div class="panel-heading"><h2>Boards</h2><span class="muted">20s refresh-ready</span></div><div id="boardList" class="board-list"></div></section><section class="panel"><div class="panel-heading"><h2 id="activeBoardName">Board</h2><button class="ghost-button" id="renameBoard">Rename</button></div><form class="inline-form" id="addStopForm"><input id="stopInput" placeholder="Add stop name or code"><button class="solid-button" type="submit">Add stop</button></form><div id="stopArrivals" class="arrival-list"></div></section></div>
+      </section>
 
-        <section class="view" id="boardsView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Excel replacement</p>
-              <h1>Favourite Stop Boards</h1>
-            </div>
-            <button class="solid-button" id="addBoard">Add board</button>
-          </div>
-          <div class="boards-layout">
-            <section class="panel">
-              <div class="panel-heading">
-                <h2>Boards</h2>
-                <span class="muted">Auto refresh: 20s</span>
-              </div>
-              <div id="boardList" class="board-list"></div>
-            </section>
-            <section class="panel">
-              <div class="panel-heading">
-                <h2 id="activeBoardName">Board</h2>
-                <button class="ghost-button" id="renameBoard">Rename</button>
-              </div>
-              <form class="inline-form" id="addStopForm">
-                <input id="stopInput" placeholder="Add stop name or code">
-                <button class="solid-button" type="submit">Add stop</button>
-              </form>
-              <div id="stopArrivals" class="arrival-list"></div>
-            </section>
-          </div>
-        </section>
+      <section class="view" id="fleetView">
+        <div class="section-heading"><div><p class="eyebrow">Searchable registry</p><h1>Fleet Database</h1></div><div class="filter-row"><select id="operatorFilter"></select><select id="fuelFilter"></select><select id="statusFilter"></select></div></div>
+        <section class="panel table-panel"><div class="table-toolbar"><label><span>Fleet search</span><input id="fleetSearch" type="search" placeholder="Search fleet number, reg, type or garage"></label><button class="ghost-button" id="exportFleet">Export CSV</button><span id="fleetCount" class="muted"></span></div><div class="table-wrap"><table><thead><tr><th><button class="sort-button" data-sort="fleetNumber">Fleet</button></th><th><button class="sort-button" data-sort="registration">Registration</button></th><th><button class="sort-button" data-sort="operator">Operator</button></th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th><button class="sort-button" data-sort="lastSeen">Last seen</button></th></tr></thead><tbody id="fleetTable"></tbody></table></div><div class="pagination"><button class="ghost-button" id="prevPage">Previous</button><span id="pageLabel"></span><button class="ghost-button" id="nextPage">Next</button></div></section>
+      </section>
 
-        <section class="view" id="routesView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Route intelligence</p>
-              <h1>Routes</h1>
-            </div>
-          </div>
-          <div id="routesGrid" class="routes-grid"></div>
-        </section>
+      <section class="view" id="routesView"><div class="section-heading"><div><p class="eyebrow">Route intelligence</p><h1>Routes</h1></div><input id="routeSearch" class="small-search" placeholder="Filter routes"></div><div id="routesGrid" class="routes-grid"></div></section>
 
-        <section class="view" id="mapView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Interactive network view</p>
-              <h1>Live Map</h1>
-            </div>
-            <div class="legend">
-              <span><i class="dot bus"></i>Vehicle</span>
-              <span><i class="dot stop"></i>Stop</span>
-              <span><i class="dot favourite"></i>Favourite</span>
-            </div>
-          </div>
-          <section class="map-panel" aria-label="Live map mockup">
-            <div class="route-line route-line-a"></div>
-            <div class="route-line route-line-b"></div>
-            <button class="map-marker bus-marker" style="--x: 24%; --y: 36%;">LTZ 1045</button>
-            <button class="map-marker bus-marker" style="--x: 63%; --y: 58%;">VH 45123</button>
-            <button class="map-marker stop-marker" style="--x: 38%; --y: 70%;">Waterloo</button>
-            <button class="map-marker stop-marker favourite-marker" style="--x: 71%; --y: 31%;">Bank</button>
-            <div class="map-attribution">Leaflet-ready layer placeholder</div>
-          </section>
-        </section>
+      <section class="view" id="mapView"><div class="section-heading"><div><p class="eyebrow">Operations view</p><h1>Live Map</h1></div><div class="legend"><span><i class="dot bus"></i>Vehicle</span><span><i class="dot stop"></i>Stop</span><span><i class="dot favourite"></i>Favourite</span></div></div><section class="map-panel" aria-label="Live map demo"><div class="route-line route-line-a"></div><div class="route-line route-line-b"></div><button class="map-marker bus-marker" style="--x:24%;--y:36%">LTZ 1045</button><button class="map-marker bus-marker" style="--x:63%;--y:58%">EV 9801</button><button class="map-marker stop-marker" style="--x:38%;--y:70%">Waterloo</button><button class="map-marker stop-marker favourite-marker" style="--x:71%;--y:31%">Bank</button><div class="map-attribution">Map placeholder · Leaflet/TfL-ready</div></section></section>
 
-        <section class="view" id="sightingsView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Manual and automatic records</p>
-              <h1>Sightings</h1>
-            </div>
-          </div>
-          <div class="sighting-layout">
-            <section class="panel">
-              <h2>Add Sighting</h2>
-              <form id="sightingForm" class="stacked-form">
-                <input id="sightingFleet" placeholder="Fleet number">
-                <input id="sightingRoute" placeholder="Route">
-                <input id="sightingLocation" placeholder="Location">
-                <input id="sightingPhoto" placeholder="Photo link">
-                <button class="solid-button" type="submit">Record sighting</button>
-              </form>
-            </section>
-            <section class="panel">
-              <div class="panel-heading">
-                <h2>Previous Sightings</h2>
-                <button class="ghost-button" id="exportSightings">Export CSV</button>
-              </div>
-              <div id="sightingList" class="sighting-list"></div>
-            </section>
-          </div>
-        </section>
+      <section class="view" id="sightingsView"><div class="section-heading"><div><p class="eyebrow">Manual + automatic records</p><h1>Sightings</h1></div></div><div class="sighting-layout"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked-form"><input id="sightingFleet" placeholder="Fleet number"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo link"><button class="solid-button" type="submit">Record sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Previous sightings</h2><button class="ghost-button" id="exportSightings">Export CSV</button></div><div id="sightingList" class="sighting-list"></div></section></div></section>
 
-        <section class="view" id="adminView">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Separate management area</p>
-              <h1>Admin Panel</h1>
-            </div>
-          </div>
-          <div class="admin-tabs" role="tablist" aria-label="Admin sections">
-            <button class="admin-tab active" data-admin-tab="dashboard">Dashboard</button>
-            <button class="admin-tab" data-admin-tab="fleet">Fleet</button>
-            <button class="admin-tab" data-admin-tab="csv">CSV Import</button>
-            <button class="admin-tab" data-admin-tab="users">Users</button>
-            <button class="admin-tab" data-admin-tab="analytics">Analytics</button>
-            <button class="admin-tab" data-admin-tab="settings">Settings</button>
-            <button class="admin-tab" data-admin-tab="audit">Audit Logs</button>
-          </div>
-          <div id="adminContent"></div>
-        </section>
-      </main>
-    </div>
+      <section class="view" id="analyticsView"><div class="section-heading"><div><p class="eyebrow">Non-maintenance intelligence</p><h1>Analytics</h1></div></div><div id="analyticsGrid" class="routes-grid"></div></section>
 
-    <dialog id="busDialog" class="profile-dialog">
-      <button class="dialog-close" id="closeBusDialog" aria-label="Close bus profile">x</button>
-      <div id="busProfile"></div>
-    </dialog>
+      <section class="view" id="adminView"><div class="section-heading"><div><p class="eyebrow">Management demo</p><h1>Admin / Imports</h1></div></div><div class="admin-tabs" role="tablist"><button class="admin-tab active" data-admin-tab="dashboard">Dashboard</button><button class="admin-tab" data-admin-tab="fleet">Fleet</button><button class="admin-tab" data-admin-tab="csv">CSV Import</button><button class="admin-tab" data-admin-tab="users">Users</button><button class="admin-tab" data-admin-tab="settings">Settings</button><button class="admin-tab" data-admin-tab="audit">Audit</button></div><div id="adminContent"></div></section>
+    </main>
+  </div>
 
-    <dialog id="authDialog" class="auth-dialog">
-      <button class="dialog-close" id="closeAuthDialog" aria-label="Close authentication dialog">x</button>
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-auth-tab="login">Login</button>
-        <button class="auth-tab" data-auth-tab="register">Register</button>
-        <button class="auth-tab" data-auth-tab="reset">Reset Password</button>
-        <button class="auth-tab" data-auth-tab="profile">Profile</button>
-      </div>
-      <form id="authForm" class="stacked-form"></form>
-    </dialog>
-
-    <script src="app.js"></script>
-  </body>
+  <dialog id="busDialog" class="profile-dialog"><button class="dialog-close" id="closeBusDialog" aria-label="Close">×</button><div id="busProfile"></div></dialog>
+  <dialog id="authDialog" class="auth-dialog"><button class="dialog-close" id="closeAuthDialog" aria-label="Close">×</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Login</button><button class="auth-tab" data-auth-tab="register">Register</button><button class="auth-tab" data-auth-tab="reset">Reset</button><button class="auth-tab" data-auth-tab="profile">Profile</button></div><form id="authForm" class="stacked-form"></form></dialog>
+  <footer class="footer">RouteFlow London demo. Data attribution area: Data provided by Transport for London when live API is connected.</footer>
+  <script src="app.js"></script>
+</body>
 </html>
