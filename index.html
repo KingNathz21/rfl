@@ -10,40 +10,57 @@
 <body>
   <header class="site-header">
     <a class="logo" href="#home" data-route="home"><img src="assets/routeflow-london-logo.svg" alt="RouteFlow London"></a>
-    <button class="mobile-menu" id="mobileMenu">☰</button>
+    <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
     <nav class="top-nav" id="topNav">
-      <button class="nav-item active" data-route="home">Home</button><button class="nav-item" data-route="hub">Live</button><button class="nav-item" data-route="routes">Routes</button><button class="nav-item" data-route="fleet">Fleet</button><button class="nav-item" data-route="boards">Boards</button><button class="nav-item" data-route="map">Map</button><button class="nav-item" data-route="sightings">Sightings</button><button class="nav-item" data-route="analytics">Analytics</button><button class="nav-item" data-route="admin">Admin</button>
+      <button class="nav-item active" data-route="home">Home</button><button class="nav-item" data-route="hub">Live</button><button class="nav-item" data-route="boards">Boards</button><button class="nav-item" data-route="fleet">Fleet</button><button class="nav-item" data-route="routes">Routes</button><button class="nav-item" data-route="map">Map</button><button class="nav-item" data-route="sightings">Sightings</button><button class="nav-item" data-route="analytics">Analytics</button><button class="nav-item" data-route="admin">Admin</button>
     </nav>
-    <form id="miniSearchForm" class="mini-search"><input id="miniSearch" placeholder="Search"><button>Search</button></form>
+    <form id="miniSearchForm" class="mini-search"><input id="miniSearch" placeholder="Search RouteFlow"><button>Search</button></form>
+    <button class="ghost kbd-btn" id="openCommand">⌘K</button>
   </header>
+
   <main>
     <section class="view active" id="homeView">
-      <section class="hero-card">
+      <section class="hero-card hero-v2">
         <img src="assets/routeflow-london-logo.svg" alt="RouteFlow London logo" class="hero-logo">
-        <h1>RouteFlow <span>London</span></h1>
-        <p>Live London transport intelligence for buses, routes, stops, places, sightings and fleet registrations.</p>
-        <form id="heroSearchForm" class="hero-search"><input id="heroSearch" placeholder="Search vehicle reg, route, stop, station or postcode"><button>Search</button></form>
+        <p class="eyebrow">Live London transport hub</p>
+        <h1>Search every London journey, stop, route and bus.</h1>
+        <p>RouteFlow London combines TfL live data with your fleet records, sightings, favourites and export-ready analytics.</p>
+        <form id="heroSearchForm" class="hero-search"><input id="heroSearch" placeholder="Try LTZ1045, 12, Rye Hill Park, Bank, SE15..."><button>Search</button></form>
         <div class="examples" id="quickExamples"></div>
       </section>
+
+      <section class="system-strip" id="systemStrip"></section>
       <section class="shortcut-grid" id="shortcutGrid"></section>
+      <section class="stats-grid" id="statsGrid"></section>
+
       <section class="home-grid">
         <article class="panel"><div class="panel-heading"><h2>Live arrivals</h2><button class="ghost" data-route="hub">View all</button></div><div id="homeArrivals"></div></article>
-        <article class="panel map-panel"><div class="map-line red"></div><div class="map-line blue"></div><button class="marker bus" style="--x:20%;--y:42%">12</button><button class="marker bus" style="--x:64%;--y:56%">133</button><button class="marker stop" style="--x:72%;--y:31%">Bank</button><span class="map-label">Live map layer</span></article>
+        <article class="panel map-panel"><div class="map-line red"></div><div class="map-line blue"></div><div id="homeMapMarkers"></div><span class="map-label">Live map layer</span></article>
         <article class="panel"><div class="panel-heading"><h2>Service status</h2><button class="ghost" id="refreshStatus">Refresh</button></div><div id="networkStatus"></div></article>
       </section>
+
       <section class="card-grid"><article class="panel"><h2>Recent searches</h2><div id="recentSearches" class="pill-row"></div></article><article class="panel"><h2>Popular routes</h2><div id="popularRoutes"></div></article><article class="panel"><h2>Latest sightings</h2><div id="latestSightings"></div></article><article class="panel"><h2>Fleet highlights</h2><div id="fleetHighlights"></div></article></section>
     </section>
 
     <section class="view" id="hubView"><div class="page-title"><p>Universal search</p><h1>Transport Hub</h1></div><div id="hubResults" class="hub-results"></div></section>
-    <section class="view" id="boardsView"><div class="page-title"><p>Favourite stop boards</p><h1>Stop Boards</h1></div><div class="split"><aside class="panel"><div class="panel-heading"><h2>Boards</h2><button id="addBoard" class="primary small">Add</button></div><div id="boardList"></div></aside><section class="panel"><div class="panel-heading"><h2 id="activeBoardName">Board</h2><button id="refreshBoard" class="ghost">Refresh</button></div><form id="addStopForm" class="inline-form"><input id="stopInput" placeholder="Search and add stop"><button>Add stop</button></form><div id="boardStops"></div></section></div></section>
-    <section class="view" id="fleetView"><div class="page-title"><p>Fleet registry</p><h1>Fleet & Registrations</h1></div><section class="panel"><div class="toolbar"><input id="fleetSearch" placeholder="Search reg, fleet, operator, garage"><select id="operatorFilter"></select><select id="fuelFilter"></select><button id="exportFleet" class="ghost">Export CSV</button></div><div class="table-wrap"><table><thead><tr><th>Fleet</th><th>Registration / Vehicle ID</th><th>Operator</th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th>Last seen</th></tr></thead><tbody id="fleetTable"></tbody></table></div></section></section>
-    <section class="view" id="routesView"><div class="page-title"><p>Route intelligence</p><h1>Routes</h1></div><section class="panel"><input id="routeSearch" placeholder="Filter routes"><div id="routesGrid" class="route-grid"></div></section></section>
-    <section class="view" id="mapView"><div class="page-title"><p>Operations view</p><h1>Live Map</h1></div><section class="panel map-large"><div class="map-line red"></div><div class="map-line blue"></div><div id="mapMarkers"></div><span class="map-label">Markers are based on live arrivals and sightings.</span></section></section>
-    <section class="view" id="sightingsView"><div class="page-title"><p>Manual + automatic observations</p><h1>Sightings</h1></div><div class="split"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked"><input id="sightingFleet" placeholder="Registration / Vehicle ID"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo URL"><button>Add sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Sightings</h2><button id="exportSightings" class="ghost">Export CSV</button></div><div id="sightingList"></div></section></div></section>
-    <section class="view" id="analyticsView"><div class="page-title"><p>Non-maintenance intelligence</p><h1>Analytics</h1></div><div id="analyticsGrid" class="card-grid"></div></section>
-    <section class="view" id="adminView"><div class="page-title"><p>Phase 3 management</p><h1>Admin & Imports</h1></div><section class="panel"><h2>Import fleet CSV</h2><p class="muted">Columns supported: fleetNumber, registration, operator, garage, vehicleType, fuelType, status.</p><textarea id="csvInput" placeholder="Paste CSV here"></textarea><button id="importCsv" class="primary">Import records</button><div id="adminOutput"></div></section></section>
+
+    <section class="view" id="boardsView"><div class="page-title"><p>Favourite stop boards</p><h1>Stop Boards</h1></div><div class="split"><aside class="panel"><div class="panel-heading"><h2>Boards</h2><button id="addBoard" class="primary small">Add</button></div><div id="boardList"></div></aside><section class="panel"><div class="panel-heading"><div><h2 id="activeBoardName">Board</h2><p class="muted" id="activeBoardMeta"></p></div><span><button id="renameBoard" class="ghost">Rename</button><button id="refreshBoard" class="ghost">Refresh</button></span></div><form id="addStopForm" class="inline-form"><input id="stopInput" placeholder="Search and add stop"><button>Add stop</button></form><div id="boardStops"></div></section></div></section>
+
+    <section class="view" id="fleetView"><div class="page-title"><p>Fleet registry</p><h1>Fleet & Vehicle IDs</h1></div><section class="panel"><div class="toolbar"><input id="fleetSearch" placeholder="Search vehicle ID, operator, garage, route"><select id="operatorFilter"></select><select id="fuelFilter"></select><select id="statusFilter"></select><button id="exportFleet" class="ghost">Export CSV</button></div><div class="table-wrap"><table><thead><tr><th>Vehicle ID</th><th>Operator</th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th>Route</th><th>Last seen</th><th>Source</th></tr></thead><tbody id="fleetTable"></tbody></table></div></section></section>
+
+    <section class="view" id="routesView"><div class="page-title"><p>Route intelligence</p><h1>Routes</h1></div><section class="panel"><div class="toolbar"><input id="routeSearch" placeholder="Filter routes"><button id="loadRouteStatus" class="ghost">Load status</button></div><div id="routesGrid" class="route-grid"></div><div id="routeDetail" class="route-detail"></div></section></section>
+
+    <section class="view" id="mapView"><div class="page-title"><p>Operations view</p><h1>Live Map</h1></div><section class="panel map-large"><div class="map-line red"></div><div class="map-line blue"></div><div id="mapMarkers"></div><span class="map-label">Markers show latest sightings and observed vehicles.</span></section></section>
+
+    <section class="view" id="sightingsView"><div class="page-title"><p>Manual + automatic observations</p><h1>Sightings</h1></div><div class="split"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked"><input id="sightingFleet" placeholder="Vehicle ID"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo URL"><textarea id="sightingNotes" placeholder="Notes (non-maintenance only)"></textarea><button>Add sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Sightings</h2><span><button id="clearSightings" class="ghost">Clear manual</button><button id="exportSightings" class="ghost">Export CSV</button></span></div><div id="sightingList"></div></section></div></section>
+
+    <section class="view" id="analyticsView"><div class="page-title"><p>Non-maintenance intelligence</p><h1>Analytics</h1></div><div id="analyticsGrid" class="card-grid"></div><section class="panel"><h2>Route affinity</h2><div id="affinityTable" class="table-wrap"></div></section></section>
+
+    <section class="view" id="adminView"><div class="page-title"><p>Phase 3 management</p><h1>Admin & Imports</h1></div><div class="admin-grid"><section class="panel"><h2>Import fleet CSV</h2><p class="muted">Columns supported: vehicleId, operator, garage, vehicleType, fuelType, status, route.</p><textarea id="csvInput" placeholder="vehicleId,operator,garage,vehicleType,fuelType,status,route"></textarea><button id="importCsv" class="primary">Import records</button><div id="adminOutput"></div></section><section class="panel"><h2>Data tools</h2><button id="backupData" class="ghost">Download backup</button><button id="resetLocalData" class="ghost danger">Reset local data</button><div id="dataHealth"></div></section></div></section>
   </main>
+
   <dialog id="vehicleDialog"><button class="close" id="closeVehicle">×</button><div id="vehicleProfile"></div></dialog>
+  <dialog id="commandDialog"><button class="close" id="closeCommand">×</button><h2>Search RouteFlow London</h2><form id="commandForm" class="hero-search compact"><input id="commandSearch" placeholder="Search vehicle, route, stop or place"><button>Search</button></form><div id="commandHints" class="pill-row"></div></dialog>
   <footer>RouteFlow London. Data provided by Transport for London where live API calls are used. Not an official TfL product.</footer>
   <script src="app.js"></script>
 </body>
