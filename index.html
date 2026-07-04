@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#071d49">
   <title>RouteFlow London</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -35,7 +36,7 @@
 
       <section class="home-grid">
         <article class="panel"><div class="panel-heading"><h2>Live arrivals</h2><button class="ghost" data-route="hub">View all</button></div><div id="homeArrivals"></div></article>
-        <article class="panel map-panel"><div class="map-line red"></div><div class="map-line blue"></div><div id="homeMapMarkers"></div><span class="map-label">Live map layer</span></article>
+        <article class="panel map-panel"><div id="homeMap" class="maplibre-map compact-map"></div><span class="map-label">OpenFreeMap + MapLibre</span></article>
         <article class="panel"><div class="panel-heading"><h2>Service status</h2><button class="ghost" id="refreshStatus">Refresh</button></div><div id="networkStatus"></div></article>
       </section>
 
@@ -50,7 +51,7 @@
 
     <section class="view" id="routesView"><div class="page-title"><p>Route intelligence</p><h1>Routes</h1></div><section class="panel"><div class="toolbar"><input id="routeSearch" placeholder="Filter routes"><button id="loadRouteStatus" class="ghost">Load status</button></div><div id="routesGrid" class="route-grid"></div><div id="routeDetail" class="route-detail"></div></section></section>
 
-    <section class="view" id="mapView"><div class="page-title"><p>Operations view</p><h1>Live Map</h1></div><section class="panel map-large"><div class="map-line red"></div><div class="map-line blue"></div><div id="mapMarkers"></div><span class="map-label">Markers show latest sightings and observed vehicles.</span></section></section>
+    <section class="view" id="mapView"><div class="page-title"><p>Operations view</p><h1>Live Map</h1></div><section class="panel map-shell"><div class="map-actions"><button class="ghost" id="fitLondon">Fit London</button><button class="ghost" id="fitSightings">Fit sightings</button></div><div id="mainMap" class="maplibre-map main-map"></div><span class="map-label">Free map tiles from OpenFreeMap, rendered with MapLibre GL.</span></section></section>
 
     <section class="view" id="sightingsView"><div class="page-title"><p>Manual + automatic observations</p><h1>Sightings</h1></div><div class="split"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked"><input id="sightingFleet" placeholder="Vehicle ID"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo URL"><textarea id="sightingNotes" placeholder="Notes (non-maintenance only)"></textarea><button>Add sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Sightings</h2><span><button id="clearSightings" class="ghost">Clear manual</button><button id="exportSightings" class="ghost">Export CSV</button></span></div><div id="sightingList"></div></section></div></section>
 
@@ -62,6 +63,7 @@
   <dialog id="vehicleDialog"><button class="close" id="closeVehicle">×</button><div id="vehicleProfile"></div></dialog>
   <dialog id="commandDialog"><button class="close" id="closeCommand">×</button><h2>Search RouteFlow London</h2><form id="commandForm" class="hero-search compact"><input id="commandSearch" placeholder="Search vehicle, route, stop or place"><button>Search</button></form><div id="commandHints" class="pill-row"></div></dialog>
   <footer>RouteFlow London. Data provided by Transport for London where live API calls are used. Not an official TfL product.</footer>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
