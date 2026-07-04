@@ -11,6 +11,36 @@ let rfOnlineRef = null;
 let rfCommunitySightings = [];
 let rfOnlineUsers = 0;
 
+(function routeFlowEarlyPerformancePatch(){
+  if (window.__routeFlowPerfPatched) return;
+  window.__routeFlowPerfPatched = true;
+  const originalFetch = window.fetch.bind(window);
+  const cache = new Map();
+  const pending = new Map();
+  const ttlFor = (url) => /Arrivals/i.test(url) ? 25000 : /Status/i.test(url) ? 120000 : /Line\/Mode\/bus|Route\/Sequence|StopPoints/i.test(url) ? 600000 : 60000;
+  window.fetch = async function(input, init = {}) {
+    const url = typeof input === "string" ? input : input?.url;
+    const method = (init.method || "GET").toUpperCase();
+    if (!url || method !== "GET" || !String(url).includes("api.tfl.gov.uk")) return originalFetch(input, init);
+    const key = `${method}:${url}`;
+    const hit = cache.get(key);
+    if (hit && Date.now() - hit.time < ttlFor(url)) return new Response(JSON.stringify(hit.data), { status: 200, headers: { "Content-Type": "application/json" } });
+    if (pending.has(key)) return new Response(JSON.stringify(await pending.get(key)), { status: 200, headers: { "Content-Type": "application/json" } });
+    const job = originalFetch(input, init).then(async (res) => {
+      const data = await res.clone().json().catch(() => null);
+      if (res.ok && data !== null) cache.set(key, { time: Date.now(), data });
+      pending.delete(key);
+      return data;
+    }).catch((err) => { pending.delete(key); throw err; });
+    pending.set(key, job);
+    const res = await originalFetch(input, init);
+    const data = await res.clone().json().catch(() => null);
+    if (res.ok && data !== null) cache.set(key, { time: Date.now(), data });
+    pending.delete(key);
+    return res;
+  };
+})();
+
 function rfGetLocalState() {
   const state = {};
   RF_KEYS.forEach((key) => {
@@ -60,6 +90,7 @@ function rfRenderAccount() {
     await rfLoadCloud(true);
   });
   document.querySelector("#publishCommunity")?.addEventListener("click", rfPublishLatestSighting);
+  rfStartCommunityFeed();
   rfRenderCommunityPanel();
 }
 
@@ -125,15 +156,17 @@ async function rfLoadCloud(forceReload = false) {
 function rfQueueSync() {
   if (!rfUser || !rfCloudLoaded) return;
   clearTimeout(rfSyncTimer);
-  rfSyncTimer = setTimeout(rfSaveCloud, 1200);
+  rfSyncTimer = setTimeout(rfSaveCloud, 2500);
 }
 
 function rfPatchLocalStorageSync() {
+  if (Storage.prototype.__rfPatched) return;
   const original = Storage.prototype.setItem;
   Storage.prototype.setItem = function patchedSetItem(key, value) {
     original.apply(this, arguments);
     if (RF_KEYS.includes(key)) rfQueueSync();
   };
+  Storage.prototype.__rfPatched = true;
 }
 
 function rfSafeKey(value) {
@@ -196,7 +229,7 @@ function rfStopPresence() {
 function rfStartCommunityFeed() {
   if (!rfRtdb || rfCommunityStarted) return;
   rfCommunityStarted = true;
-  rfRtdb.ref("community/sightings").limitToLast(12).on("value", (snap) => {
+  rfRtdb.ref("community/sightings").limitToLast(8).on("value", (snap) => {
     const rows = [];
     snap.forEach((child) => rows.push({ id: child.key, ...child.val() }));
     rfCommunitySightings = rows.reverse();
@@ -222,7 +255,6 @@ function rfInitFirebase() {
     rfAuth = firebase.auth();
     rfDb = firebase.firestore();
     rfRtdb = firebase.database ? firebase.database() : null;
-    if (firebase.analytics) firebase.analytics();
   } catch (err) {
     if (!/already exists/i.test(err.message)) console.error(err);
     rfFirebase = firebase.app();
@@ -231,14 +263,13 @@ function rfInitFirebase() {
     rfRtdb = firebase.database ? firebase.database() : null;
   }
   rfPatchLocalStorageSync();
-  rfStartCommunityFeed();
   rfAuth.onAuthStateChanged(async (user) => {
     if (!user) rfStopPresence();
     rfUser = user;
     rfRenderAccount();
     if (user) {
-      rfStartPresence();
-      await rfLoadCloud(false);
+      setTimeout(rfStartPresence, 1500);
+      setTimeout(() => rfLoadCloud(false), 1200);
     }
   });
 }
@@ -249,5 +280,5 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#accountDialog")?.showModal();
   });
   document.querySelector("#closeAccount")?.addEventListener("click", () => document.querySelector("#accountDialog")?.close());
-  rfInitFirebase();
+  requestAnimationFrame(rfInitFirebase);
 });
