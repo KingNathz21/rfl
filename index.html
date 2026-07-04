@@ -17,6 +17,7 @@
     </nav>
     <form id="miniSearchForm" class="mini-search"><input id="miniSearch" placeholder="Search RouteFlow"><button>Search</button></form>
     <button class="ghost kbd-btn" id="openCommand">⌘K</button>
+    <button class="ghost account-btn" id="openAccount">Log in</button>
   </header>
 
   <main>
@@ -62,8 +63,14 @@
 
   <dialog id="vehicleDialog"><button class="close" id="closeVehicle">×</button><div id="vehicleProfile"></div></dialog>
   <dialog id="commandDialog"><button class="close" id="closeCommand">×</button><h2>Search RouteFlow London</h2><form id="commandForm" class="hero-search compact"><input id="commandSearch" placeholder="Search vehicle, route, stop or place"><button>Search</button></form><div id="commandHints" class="pill-row"></div></dialog>
+  <dialog id="accountDialog"><button class="close" id="closeAccount">×</button><div id="accountPanel"></div></dialog>
   <footer>RouteFlow London. Data provided by Transport for London where live API calls are used. Not an official TfL product.</footer>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
