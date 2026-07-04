@@ -8,3 +8,8 @@ window.RouteFlowFirebaseConfig = {
   appId: "1:1097447189862:web:a83dc670673e91100eaca7",
   measurementId: "G-CNCXXN7BXV"
 };
+window.addEventListener("DOMContentLoaded", () => {
+  const script = document.createElement("script");
+  script.src = "routes-main.js";
+  document.body.appendChild(script);
+});
