@@ -1,6 +1,7 @@
 window.RouteFlowFirebaseConfig = {
   apiKey: "AIzaSyAMZ5bEx4no7psjpzfMOQFyb2ukZ9ymavQ",
   authDomain: "rfldon.firebaseapp.com",
+  databaseURL: "https://rfldon-default-rtdb.firebaseio.com",
   projectId: "rfldon",
   storageBucket: "rfldon.firebasestorage.app",
   messagingSenderId: "1097447189862",
