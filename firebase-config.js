@@ -9,7 +9,11 @@ window.RouteFlowFirebaseConfig = {
   measurementId: "G-CNCXXN7BXV"
 };
 window.addEventListener("DOMContentLoaded", () => {
-  const script = document.createElement("script");
-  script.src = "routes-main.js";
-  document.body.appendChild(script);
+  ["desktop-ui-speed.js", "routes-main.js"].forEach((src) => {
+    if (document.querySelector(`script[src='${src}']`)) return;
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    document.body.appendChild(script);
+  });
 });
