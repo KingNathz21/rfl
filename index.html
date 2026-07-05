@@ -3,78 +3,130 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#071d49">
+  <meta name="theme-color" content="#e30613">
   <title>RouteFlow London</title>
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="routeflow-redesign.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="logo" href="#home" data-route="home"><img src="assets/routeflow-london-logo.svg" alt="RouteFlow London"></a>
-    <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
-    <nav class="top-nav" id="topNav">
-      <button class="nav-item active" data-route="home">Home</button><button class="nav-item" data-route="hub">Live</button><button class="nav-item" data-route="boards">Boards</button><button class="nav-item" data-route="fleet">Fleet</button><button class="nav-item" data-route="routes">Routes</button><button class="nav-item" data-route="map">Map</button><button class="nav-item" data-route="sightings">Sightings</button><button class="nav-item" data-route="analytics">Analytics</button><button class="nav-item" data-route="admin">Admin</button>
+  <div class="app">
+    <header class="topbar">
+      <button class="hamburger">☰</button>
+      <a class="brand" data-page="home">
+        <span class="brand-mark">RF</span>
+        <span class="brand-text">RouteFlow<br>London</span>
+      </a>
+      <span class="tagline">London Travel. Reimagined.</span>
+      <nav class="nav">
+        <button class="active" data-page="home">Home</button>
+        <button data-page="dashboard">Dashboard</button>
+        <button data-page="arrivals">Arrival Times</button>
+        <button data-page="planner">Journey Planner</button>
+        <button data-page="routes">Routes</button>
+        <button data-page="disruptions">Disruptions</button>
+        <button data-page="fleet">Fleet</button>
+        <button data-page="updates">Updates</button>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-btn">🔔</button>
+        <span class="avatar"></span>
+      </div>
+      <button class="icon-btn mobile-profile">♡</button>
+    </header>
+
+    <main>
+      <section id="home" class="page-view active">
+        <section class="hero" style="--hero-image:linear-gradient(120deg,#f5d7bc 0%,#d8e2ee 45%,#5a728c 100%)">
+          <div class="hero-content">
+            <h1><span class="red">RouteFlow</span> London</h1>
+            <p class="hero-sub">London Travel. Reimagined.</p>
+            <form class="search-row">
+              <span>⌕</span>
+              <input placeholder="Search a bus stop, route, station or registration">
+              <button>⌕</button>
+            </form>
+            <div class="hero-actions">
+              <button class="hero-action red-bg" data-page="arrivals"><span class="big-icon">▣</span><span><strong>Live Arrivals</strong><small>See real-time arrivals</small></span></button>
+              <button class="hero-action blue-bg" data-page="planner"><span class="big-icon">⌘</span><span><strong>Plan Journey</strong><small>Plan door to door</small></span></button>
+              <button class="hero-action black-bg" data-page="disruptions"><span class="big-icon">⚠</span><span><strong>Check Disruptions</strong><small>View travel alerts</small></span></button>
+            </div>
+          </div>
+        </section>
+
+        <div class="page">
+          <div class="quick-tiles">
+            <button class="quick-tile q-red" data-page="arrivals"><span>▣</span>Bus Stop</button>
+            <button class="quick-tile q-blue" data-page="routes"><span>⌘</span>Route</button>
+            <button class="quick-tile q-black" data-page="fleet"><span>▤</span>Reg</button>
+            <button class="quick-tile q-purple" data-page="planner"><span>♟</span>Journey</button>
+          </div>
+
+          <section class="status-section">
+            <div class="section-head"><h2>Live Network Status</h2><button class="view-all" data-page="disruptions">View all</button></div>
+            <div class="status-grid" id="statusGrid">
+              <article class="status-card"><div class="status-title"><span class="mode-icon">▣</span>Buses</div><p class="good" data-status="buses">Good Service</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon tube">⊖</span>Tube</div><p class="good">Good Service</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon dlr">⊙</span>DLR</div><p class="good">Good Service</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon overground">⊖</span>London Overground</div><p class="delay">Minor Delays</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon elizabeth">⊖</span>Elizabeth line</div><p class="good">Good Service</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon tram">▣</span>Trams</div><p class="good">Good Service</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon river">▰</span>River</div><p class="good">Good Service</p></article>
+            </div>
+          </section>
+
+          <section class="mobile-only">
+            <div class="section-head"><h2>Live Arrivals Near You</h2><button class="view-all" data-page="arrivals">View all</button></div>
+            <div class="arrival-card" id="nearArrivals">
+              <div class="mobile-arrival"><span class="route-badge">12</span><div><strong>Dulwich Library</strong><small>towards Oxford Circus</small></div><span class="due-red">Due</span></div>
+              <div class="mobile-arrival"><span class="route-badge">88</span><div><strong>Clapham Common</strong><small>towards Camden Town</small></div><span>3 mins</span></div>
+              <div class="mobile-arrival"><span class="route-badge">⊖</span><div><strong>Victoria</strong><small>Victoria Line</small></div><span>4 mins</span></div>
+            </div>
+          </section>
+
+          <section class="content-grid">
+            <article class="panel">
+              <div class="section-head"><h2>Favourite Stops</h2><button class="view-all">View all</button></div>
+              <div class="list-row"><span class="stop-letter">A</span><div><strong>Baker Street Station</strong><small>Baker Street, W1U 6TN</small></div><span class="mins">2<small>mins</small></span><span class="star">☆</span></div>
+              <div class="list-row"><span class="stop-letter">B</span><div><strong>London Bridge Station</strong><small>London Bridge, SE1 9SP</small></div><span class="mins">3<small>mins</small></span><span class="star">☆</span></div>
+              <div class="list-row"><span class="stop-letter">C</span><div><strong>Oxford Circus Station</strong><small>Oxford Circus, W1D 1BS</small></div><span class="mins">5<small>mins</small></span><span class="star">☆</span></div>
+            </article>
+            <article class="panel desktop-panel">
+              <div class="section-head"><h2>Recent Searches</h2><button class="view-all">View all</button></div>
+              <div class="recent-row"><span>⊖</span><span>Waterloo Station</span><span>×</span></div>
+              <div class="recent-row"><span>▣</span><span>22 Bus</span><span>×</span></div>
+              <div class="recent-row"><span>⊖</span><span>Victoria Station</span><span>×</span></div>
+              <div class="recent-row"><span>▤</span><span>SN12 AAB</span><span>×</span></div>
+              <div class="recent-row"><span>⌘</span><span>London Bridge to Canary Wharf</span><span>×</span></div>
+            </article>
+            <article class="panel desktop-panel">
+              <div class="section-head"><h2>Featured</h2><button class="view-all" data-page="updates">View all</button></div>
+              <div class="feature-card"><div class="feature-copy"><h3>New Bus Route 15</h3><p>Direct from Trafalgar Square to East Ham</p></div><div class="dots"><i></i><i></i><i></i></div></div>
+            </article>
+          </section>
+
+          <section class="bottom-grid">
+            <article class="subscribe"><h2>Stay Informed</h2><p>Subscribe to get the latest travel updates, disruptions and route changes.</p><button>Subscribe Now</button></article>
+            <article class="skyline">London skyline placeholder</article>
+          </section>
+        </div>
+      </section>
+
+      <section id="arrivals" class="page-view"><div class="inner-page"><div class="page-title"><h1>Arrival Times</h1><p>Search TfL bus stops and see live arrivals.</p></div><form class="search-row"><span>⌕</span><input id="arrivalSearch" placeholder="Search a stop, e.g. Rye Hill Park"><button>⌕</button></form><div id="arrivalResults" style="margin-top:24px"></div></div></section>
+      <section id="routes" class="page-view"><div class="inner-page"><div class="page-title"><h1>Routes</h1><p>Browse routes, live vehicle IDs, stops and route history.</p></div><input id="routeSearch" class="route-list-search" placeholder="Filter routes"><div class="cards" id="routesGrid"></div></div></section>
+      <section id="updates" class="page-view"><div class="inner-page"><div class="page-title"><h1>Updates</h1><p>News, launch notes and RouteFlow London development updates.</p></div><div class="cards"><article class="update-card"><small>Development</small><h2>RouteFlow London redesign</h2><p>The interface has been rebuilt to match the desktop and mobile app-style design.</p></article><article class="update-card"><small>Live Data</small><h2>TfL powered arrivals</h2><p>Arrival Times and Routes use TfL endpoints with lightweight caching.</p></article><article class="update-card"><small>Community</small><h2>Fleet and sightings</h2><p>Vehicle ID profiles, sightings and favourites will continue to grow.</p></article></div></div></section>
+      <section id="dashboard" class="page-view"><div class="inner-page"><div class="page-title"><h1>Dashboard</h1><p>Your favourites, searches and RouteFlow activity.</p></div><div class="cards"><article class="update-card"><h2>Favourite Stops</h2><p>Baker Street, London Bridge, Oxford Circus</p></article><article class="update-card"><h2>Recent Searches</h2><p>Waterloo Station, Route 12, SN12 AAB</p></article><article class="update-card"><h2>Achievements</h2><p>Coming soon</p></article></div></div></section>
+      <section id="planner" class="page-view"><div class="inner-page"><div class="page-title"><h1>Journey Planner</h1><p>Plan London journeys from A to B.</p></div><div class="cards"><article class="update-card"><h2>Planner placeholder</h2><p>Journey planning will connect to TfL Journey Results.</p></article></div></div></section>
+      <section id="disruptions" class="page-view"><div class="inner-page"><div class="page-title"><h1>Disruptions</h1><p>Live network alerts and planned changes.</p></div><div class="cards"><article class="update-card"><h2>Good Service</h2><p>Most demo network cards currently show good service.</p></article><article class="update-card"><h2>London Overground</h2><p>Minor delays placeholder.</p></article></div></div></section>
+      <section id="fleet" class="page-view"><div class="inner-page"><div class="page-title"><h1>Fleet</h1><p>Search bus vehicle IDs and registrations.</p></div><div class="cards"><article class="update-card"><h2>Vehicle search</h2><p>Fleet profiles and sightings are being rebuilt into this lighter design.</p></article></div></div></section>
+    </main>
+
+    <nav class="mobile-bottom">
+      <button class="active" data-page="home"><span>⌂</span>Home</button>
+      <button data-page="arrivals"><span>▣</span>Arrivals</button>
+      <button data-page="planner"><span>⌘</span>Planner</button>
+      <button data-page="disruptions"><span>⚠</span>Disruptions</button>
+      <button data-page="dashboard"><span>♡</span>Profile</button>
     </nav>
-    <form id="miniSearchForm" class="mini-search"><input id="miniSearch" placeholder="Search RouteFlow"><button>Search</button></form>
-    <button class="ghost kbd-btn" id="openCommand">⌘K</button>
-    <button class="ghost account-btn" id="openAccount">Log in</button>
-  </header>
-
-  <main>
-    <section class="view active" id="homeView">
-      <section class="hero-card hero-v2">
-        <img src="assets/routeflow-london-logo.svg" alt="RouteFlow London logo" class="hero-logo">
-        <p class="eyebrow">Live London transport hub</p>
-        <h1>Search every London journey, stop, route and bus.</h1>
-        <p>RouteFlow London combines TfL live data with your fleet records, sightings, favourites and export-ready analytics.</p>
-        <form id="heroSearchForm" class="hero-search"><input id="heroSearch" placeholder="Try LTZ1045, 12, Rye Hill Park, Bank, SE15..."><button>Search</button></form>
-        <div class="examples" id="quickExamples"></div>
-      </section>
-
-      <section class="system-strip" id="systemStrip"></section>
-      <section class="shortcut-grid" id="shortcutGrid"></section>
-      <section class="stats-grid" id="statsGrid"></section>
-
-      <section class="home-grid">
-        <article class="panel"><div class="panel-heading"><h2>Live arrivals</h2><button class="ghost" data-route="hub">View all</button></div><div id="homeArrivals"></div></article>
-        <article class="panel map-panel"><div id="homeMap" class="maplibre-map compact-map"></div><span class="map-label">OpenFreeMap + MapLibre</span></article>
-        <article class="panel"><div class="panel-heading"><h2>Service status</h2><button class="ghost" id="refreshStatus">Refresh</button></div><div id="networkStatus"></div></article>
-      </section>
-
-      <section class="card-grid"><article class="panel"><h2>Recent searches</h2><div id="recentSearches" class="pill-row"></div></article><article class="panel"><h2>Popular routes</h2><div id="popularRoutes"></div></article><article class="panel"><h2>Latest sightings</h2><div id="latestSightings"></div></article><article class="panel"><h2>Fleet highlights</h2><div id="fleetHighlights"></div></article></section>
-    </section>
-
-    <section class="view" id="hubView"><div class="page-title"><p>Universal search</p><h1>Transport Hub</h1></div><div id="hubResults" class="hub-results"></div></section>
-
-    <section class="view" id="boardsView"><div class="page-title"><p>Favourite stop boards</p><h1>Stop Boards</h1></div><div class="split"><aside class="panel"><div class="panel-heading"><h2>Boards</h2><button id="addBoard" class="primary small">Add</button></div><div id="boardList"></div></aside><section class="panel"><div class="panel-heading"><div><h2 id="activeBoardName">Board</h2><p class="muted" id="activeBoardMeta"></p></div><span><button id="renameBoard" class="ghost">Rename</button><button id="refreshBoard" class="ghost">Refresh</button></span></div><form id="addStopForm" class="inline-form"><input id="stopInput" placeholder="Search and add stop"><button>Add stop</button></form><div id="boardStops"></div></section></div></section>
-
-    <section class="view" id="fleetView"><div class="page-title"><p>Fleet registry</p><h1>Fleet & Vehicle IDs</h1></div><section class="panel"><div class="toolbar"><input id="fleetSearch" placeholder="Search vehicle ID, operator, garage, route"><select id="operatorFilter"></select><select id="fuelFilter"></select><select id="statusFilter"></select><button id="exportFleet" class="ghost">Export CSV</button></div><div class="table-wrap"><table><thead><tr><th>Vehicle ID</th><th>Operator</th><th>Garage</th><th>Type</th><th>Fuel</th><th>Status</th><th>Route</th><th>Last seen</th><th>Source</th></tr></thead><tbody id="fleetTable"></tbody></table></div></section></section>
-
-    <section class="view" id="routesView"><div class="page-title"><p>Route intelligence</p><h1>Routes</h1></div><section class="panel"><div class="toolbar"><input id="routeSearch" placeholder="Filter routes"><button id="loadRouteStatus" class="ghost">Load status</button></div><div id="routesGrid" class="route-grid"></div><div id="routeDetail" class="route-detail"></div></section></section>
-
-    <section class="view" id="mapView"><div class="page-title"><p>Operations view</p><h1>Live Map</h1></div><section class="panel map-shell"><div class="map-actions"><button class="ghost" id="fitLondon">Fit London</button><button class="ghost" id="fitSightings">Fit sightings</button></div><div id="mainMap" class="maplibre-map main-map"></div><span class="map-label">Free map tiles from OpenFreeMap, rendered with MapLibre GL.</span></section></section>
-
-    <section class="view" id="sightingsView"><div class="page-title"><p>Manual + automatic observations</p><h1>Sightings</h1></div><div class="split"><section class="panel"><h2>Add sighting</h2><form id="sightingForm" class="stacked"><input id="sightingFleet" placeholder="Vehicle ID"><input id="sightingRoute" placeholder="Route"><input id="sightingLocation" placeholder="Stop or location"><input id="sightingPhoto" placeholder="Photo URL"><textarea id="sightingNotes" placeholder="Notes (non-maintenance only)"></textarea><button>Add sighting</button></form></section><section class="panel"><div class="panel-heading"><h2>Sightings</h2><span><button id="clearSightings" class="ghost">Clear manual</button><button id="exportSightings" class="ghost">Export CSV</button></span></div><div id="sightingList"></div></section></div></section>
-
-    <section class="view" id="analyticsView"><div class="page-title"><p>Non-maintenance intelligence</p><h1>Analytics</h1></div><div id="analyticsGrid" class="card-grid"></div><section class="panel"><h2>Route affinity</h2><div id="affinityTable" class="table-wrap"></div></section></section>
-
-    <section class="view" id="adminView"><div class="page-title"><p>Phase 3 management</p><h1>Admin & Imports</h1></div><div class="admin-grid"><section class="panel"><h2>Import fleet CSV</h2><p class="muted">Columns supported: vehicleId, operator, garage, vehicleType, fuelType, status, route.</p><textarea id="csvInput" placeholder="vehicleId,operator,garage,vehicleType,fuelType,status,route"></textarea><button id="importCsv" class="primary">Import records</button><div id="adminOutput"></div></section><section class="panel"><h2>Data tools</h2><button id="backupData" class="ghost">Download backup</button><button id="resetLocalData" class="ghost danger">Reset local data</button><div id="dataHealth"></div></section></div></section>
-  </main>
-
-  <dialog id="vehicleDialog"><button class="close" id="closeVehicle">×</button><div id="vehicleProfile"></div></dialog>
-  <dialog id="commandDialog"><button class="close" id="closeCommand">×</button><h2>Search RouteFlow London</h2><form id="commandForm" class="hero-search compact"><input id="commandSearch" placeholder="Search vehicle, route, stop or place"><button>Search</button></form><div id="commandHints" class="pill-row"></div></dialog>
-  <dialog id="accountDialog"><button class="close" id="closeAccount">×</button><div id="accountPanel"></div></dialog>
-  <footer>RouteFlow London. Data provided by Transport for London where live API calls are used. Not an official TfL product.</footer>
-  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="app.js"></script>
-  <script src="phase4-firebase.js"></script>
-  <script src="proposal-compliance.js"></script>
-  <script src="mobile-admin-fixes.js"></script>
+  </div>
+  <script src="routeflow-redesign.js"></script>
 </body>
 </html>
