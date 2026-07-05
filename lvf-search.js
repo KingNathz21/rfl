@@ -1,5 +1,6 @@
 (() => {
   const TFL = 'https://api.tfl.gov.uk';
+  const PUBLIC_TEST_TFL_KEY = 'f17d0725d1654338ab02a361fe41abad';
   const KEY_NAME = 'rfl_tfl_key';
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
@@ -15,7 +16,7 @@
     routes: []
   };
   function save(){ store.set('rfl_vehicle_profiles', data.vehicles); store.set('rfl_profile', data.profile); store.set('rfl_route_history', data.routeHistory); }
-  function addKey(path){ const [b,q=''] = path.split('?'); const p = new URLSearchParams(q); const key = localStorage.getItem(KEY_NAME); if(key) p.set('app_key', key); return `${b}?${p.toString()}`; }
+  function addKey(path){ const [b,q=''] = path.split('?'); const p = new URLSearchParams(q); const key = localStorage.getItem(KEY_NAME) || PUBLIC_TEST_TFL_KEY; if(key) p.set('app_key', key); return `${b}?${p.toString()}`; }
   async function api(path, ttl=30000, group='api'){
     const key = addKey(path); const hit = cache.get(key); if(hit && Date.now()-hit.t < ttl) return hit.d;
     if(aborts[group]) aborts[group].abort(); const c = new AbortController(); aborts[group] = c;
