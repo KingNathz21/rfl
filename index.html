@@ -3,20 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#e30613">
+  <meta name="theme-color" content="#d90429">
+  <meta name="description" content="RouteFlow London — live arrivals, journey planning, routes, disruptions and fleet information across London.">
   <title>RouteFlow London</title>
   <link rel="stylesheet" href="routeflow-redesign.css">
+  <link rel="stylesheet" href="routeflow-v2.css">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
-      <button class="hamburger">☰</button>
-      <a class="brand" data-page="home">
+      <button class="hamburger" aria-label="Open menu">☰</button>
+      <a class="brand" data-page="home" aria-label="RouteFlow London home">
         <span class="brand-mark">RF</span>
         <span class="brand-text">RouteFlow<br>London</span>
       </a>
       <span class="tagline">London Travel. Reimagined.</span>
-      <nav class="nav">
+      <nav class="nav" aria-label="Main navigation">
         <button class="active" data-page="home">Home</button>
         <button data-page="dashboard">Dashboard</button>
         <button data-page="arrivals">Arrival Times</button>
@@ -27,28 +29,35 @@
         <button data-page="updates">Updates</button>
       </nav>
       <div class="top-actions">
-        <button class="icon-btn">🔔</button>
-        <span class="avatar"></span>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <span class="avatar" aria-hidden="true"></span>
       </div>
-      <button class="icon-btn mobile-profile">♡</button>
+      <button class="icon-btn mobile-profile" aria-label="Open profile">♡</button>
     </header>
 
     <main>
       <section id="home" class="page-view active">
-        <section class="hero" style="--hero-image:linear-gradient(120deg,#f5d7bc 0%,#d8e2ee 45%,#5a728c 100%)">
+        <section class="hero v2-hero">
           <div class="hero-content">
-            <h1><span class="red">RouteFlow</span> London</h1>
-            <p class="hero-sub">London Travel. Reimagined.</p>
-            <form class="search-row">
-              <span>⌕</span>
-              <input placeholder="Search vehicle, route, stop or place">
-              <button>⌕</button>
+            <span class="eyebrow">Your London transport companion</span>
+            <h1>Move through London <span class="red">with confidence.</span></h1>
+            <p class="hero-sub">Live arrivals, smarter journey planning and detailed route information in one fast, responsive place.</p>
+            <form class="search-row global-search">
+              <span aria-hidden="true">⌕</span>
+              <input aria-label="Search RouteFlow" placeholder="Search a stop, route, postcode or vehicle">
+              <button aria-label="Search">⌕</button>
             </form>
             <div class="hero-actions">
-              <button class="hero-action red-bg" data-page="arrivals"><span class="big-icon">▣</span><span><strong>Live Arrivals</strong><small>See real-time arrivals</small></span></button>
-              <button class="hero-action blue-bg" data-page="planner"><span class="big-icon">⌘</span><span><strong>Plan Journey</strong><small>Plan door to door</small></span></button>
-              <button class="hero-action black-bg" data-page="disruptions"><span class="big-icon">⚠</span><span><strong>Check Disruptions</strong><small>View travel alerts</small></span></button>
+              <button class="hero-action red-bg" data-page="arrivals"><span class="big-icon">▣</span><span><strong>Live Arrivals</strong><small>Real-time stop boards</small></span></button>
+              <button class="hero-action blue-bg" data-page="planner"><span class="big-icon">⌘</span><span><strong>Plan Journey</strong><small>Door-to-door options</small></span></button>
+              <button class="hero-action navy-bg" data-page="disruptions"><span class="big-icon">⚠</span><span><strong>Disruptions</strong><small>Check before travelling</small></span></button>
             </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="route-line route-line-red"></div>
+            <div class="route-line route-line-blue"></div>
+            <div class="hero-card"><span>12</span><div><strong>Dulwich Library</strong><small>Due</small></div></div>
+            <div class="hero-card second"><span>63</span><div><strong>King's Cross</strong><small>4 mins</small></div></div>
           </div>
         </section>
 
@@ -56,17 +65,23 @@
           <div class="quick-tiles">
             <button class="quick-tile q-red" data-page="arrivals"><span>▣</span>Bus Stop</button>
             <button class="quick-tile q-blue" data-page="routes"><span>⌘</span>Route</button>
-            <button class="quick-tile q-black" data-page="fleet"><span>▤</span>Reg</button>
+            <button class="quick-tile q-black" data-page="fleet"><span>▤</span>Vehicle</button>
             <button class="quick-tile q-purple" data-page="planner"><span>♟</span>Journey</button>
           </div>
 
+          <section class="overview-strip">
+            <article><span class="overview-icon red-icon">▣</span><div><small>Live arrivals</small><strong>Stop-name search</strong></div></article>
+            <article><span class="overview-icon blue-icon">⌘</span><div><small>Journey planning</small><strong>Multiple options</strong></div></article>
+            <article><span class="overview-icon navy-icon">▤</span><div><small>Fleet intelligence</small><strong>Vehicle profiles</strong></div></article>
+          </section>
+
           <section class="status-section">
-            <div class="section-head"><h2>Live Network Status</h2><button class="view-all" data-page="disruptions">View all</button></div>
+            <div class="section-head"><div><span class="section-kicker">LIVE DATA</span><h2>Network Status</h2></div><button class="view-all" data-page="disruptions">View all</button></div>
             <div class="status-grid" id="statusGrid">
               <article class="status-card"><div class="status-title"><span class="mode-icon">▣</span>Buses</div><p class="good" data-status="buses">Good Service</p></article>
               <article class="status-card"><div class="status-title"><span class="mode-icon tube">⊖</span>Tube</div><p class="good">Good Service</p></article>
               <article class="status-card"><div class="status-title"><span class="mode-icon dlr">⊙</span>DLR</div><p class="good">Good Service</p></article>
-              <article class="status-card"><div class="status-title"><span class="mode-icon overground">⊖</span>London Overground</div><p class="delay">Minor Delays</p></article>
+              <article class="status-card"><div class="status-title"><span class="mode-icon overground">⊖</span>Overground</div><p class="delay">Minor Delays</p></article>
               <article class="status-card"><div class="status-title"><span class="mode-icon elizabeth">⊖</span>Elizabeth line</div><p class="good">Good Service</p></article>
               <article class="status-card"><div class="status-title"><span class="mode-icon tram">▣</span>Trams</div><p class="good">Good Service</p></article>
               <article class="status-card"><div class="status-title"><span class="mode-icon river">▰</span>River</div><p class="good">Good Service</p></article>
@@ -78,48 +93,48 @@
             <div class="arrival-card" id="nearArrivals">
               <div class="mobile-arrival"><span class="route-badge">12</span><div><strong>Dulwich Library</strong><small>towards Oxford Circus</small></div><span class="due-red">Due</span></div>
               <div class="mobile-arrival"><span class="route-badge">88</span><div><strong>Clapham Common</strong><small>towards Camden Town</small></div><span>3 mins</span></div>
-              <div class="mobile-arrival"><span class="route-badge">⊖</span><div><strong>Victoria</strong><small>Victoria Line</small></div><span>4 mins</span></div>
             </div>
           </section>
 
           <section class="content-grid">
             <article class="panel">
-              <div class="section-head"><h2>Favourite Stops</h2><button class="view-all">View all</button></div>
+              <div class="section-head"><h2>Favourite Stops</h2><button class="view-all" data-page="arrivals">View all</button></div>
               <div class="list-row"><span class="stop-letter">A</span><div><strong>Baker Street Station</strong><small>Baker Street, W1U 6TN</small></div><span class="mins">2<small>mins</small></span><span class="star">☆</span></div>
               <div class="list-row"><span class="stop-letter">B</span><div><strong>London Bridge Station</strong><small>London Bridge, SE1 9SP</small></div><span class="mins">3<small>mins</small></span><span class="star">☆</span></div>
               <div class="list-row"><span class="stop-letter">C</span><div><strong>Oxford Circus Station</strong><small>Oxford Circus, W1D 1BS</small></div><span class="mins">5<small>mins</small></span><span class="star">☆</span></div>
             </article>
             <article class="panel desktop-panel">
-              <div class="section-head"><h2>Recent Searches</h2><button class="view-all">View all</button></div>
-              <div class="recent-row"><span>⊖</span><span>Waterloo Station</span><span>×</span></div>
-              <div class="recent-row"><span>▣</span><span>22 Bus</span><span>×</span></div>
-              <div class="recent-row"><span>⊖</span><span>Victoria Station</span><span>×</span></div>
-              <div class="recent-row"><span>▤</span><span>SN12 AAB</span><span>×</span></div>
-              <div class="recent-row"><span>⌘</span><span>London Bridge to Canary Wharf</span><span>×</span></div>
+              <div class="section-head"><h2>Recent Searches</h2><button class="view-all" data-page="dashboard">View all</button></div>
+              <div class="recent-row"><span>⊖</span><span>Waterloo Station</span><span>›</span></div>
+              <div class="recent-row"><span>▣</span><span>Route 12</span><span>›</span></div>
+              <div class="recent-row"><span>▤</span><span>SN12 AAB</span><span>›</span></div>
+              <div class="recent-row"><span>⌘</span><span>London Bridge to Canary Wharf</span><span>›</span></div>
             </article>
-            <article class="panel desktop-panel">
-              <div class="section-head"><h2>Featured</h2><button class="view-all" data-page="updates">View all</button></div>
-              <div class="feature-card"><div class="feature-copy"><h3>New Bus Route 15</h3><p>Direct from Trafalgar Square to East Ham</p></div><div class="dots"><i></i><i></i><i></i></div></div>
+            <article class="panel desktop-panel feature-panel">
+              <span class="section-kicker light-kicker">ROUTEFLOW UPDATE</span>
+              <h2>A cleaner way to explore London</h2>
+              <p>The refreshed RouteFlow design keeps arrivals, routes, fleet information and disruptions within easy reach.</p>
+              <button class="feature-button" data-page="updates">See what’s new</button>
             </article>
           </section>
 
           <section class="bottom-grid">
-            <article class="subscribe"><h2>Stay Informed</h2><p>Subscribe to get the latest travel updates, disruptions and route changes.</p><button>Subscribe Now</button></article>
-            <article class="skyline">London skyline placeholder</article>
+            <article class="subscribe"><span class="section-kicker light-kicker">PERSONALISED TRAVEL</span><h2>Save the journeys that matter.</h2><p>Keep favourite stops, recent searches and tracked vehicles together in your RouteFlow dashboard.</p><button data-page="dashboard">Open Dashboard</button></article>
+            <article class="skyline"><strong>London Travel.<br><span>Reimagined.</span></strong></article>
           </section>
         </div>
       </section>
 
-      <section id="arrivals" class="page-view"><div class="inner-page"><div class="page-title"><h1>Arrival Times</h1><p>Search TfL bus stops and see live arrivals.</p></div><form class="search-row"><span>⌕</span><input id="arrivalSearch" placeholder="Try ETA LX11AZB, ROUTE 12, or STOP Rye Hill Park"><button>⌕</button></form><div id="arrivalResults" style="margin-top:24px"></div></div></section>
-      <section id="routes" class="page-view"><div class="inner-page"><div class="page-title"><h1>Routes</h1><p>Browse routes, live vehicle IDs, stops and route history.</p></div><input id="routeSearch" class="route-list-search" placeholder="Filter routes"><div class="cards" id="routesGrid"></div></div></section>
-      <section id="updates" class="page-view"><div class="inner-page"><div class="page-title"><h1>Updates</h1><p>News, launch notes and RouteFlow London development updates.</p></div><div class="cards"><article class="update-card"><small>Development</small><h2>RouteFlow London redesign</h2><p>The interface has been rebuilt to match the desktop and mobile app-style design.</p></article><article class="update-card"><small>Live Data</small><h2>TfL powered arrivals</h2><p>Arrival Times and Routes use TfL endpoints with lightweight caching.</p></article><article class="update-card"><small>Community</small><h2>Fleet and sightings</h2><p>Vehicle ID profiles, sightings and favourites will continue to grow.</p></article></div></div></section>
-      <section id="dashboard" class="page-view"><div class="inner-page"><div class="page-title"><h1>Dashboard</h1><p>Your favourites, searches and RouteFlow activity.</p></div><div class="cards"><article class="update-card"><h2>Favourite Stops</h2><p>Baker Street, London Bridge, Oxford Circus</p></article><article class="update-card"><h2>Recent Searches</h2><p>Waterloo Station, Route 12, SN12 AAB</p></article><article class="update-card"><h2>Achievements</h2><p>Coming soon</p></article></div></div></section>
-      <section id="planner" class="page-view"><div class="inner-page"><div class="page-title"><h1>Journey Planner</h1><p>Plan London journeys from A to B.</p></div><div class="cards"><article class="update-card"><h2>Planner placeholder</h2><p>Journey planning will connect to TfL Journey Results.</p></article></div></div></section>
-      <section id="disruptions" class="page-view"><div class="inner-page"><div class="page-title"><h1>Disruptions</h1><p>Live network alerts and planned changes.</p></div><div class="cards"><article class="update-card"><h2>Good Service</h2><p>Most demo network cards currently show good service.</p></article><article class="update-card"><h2>London Overground</h2><p>Minor delays placeholder.</p></article></div></div></section>
-      <section id="fleet" class="page-view"><div class="inner-page"><div class="page-title"><h1>Fleet</h1><p>Search bus vehicle IDs and registrations.</p></div><div class="cards"><article class="update-card"><h2>Vehicle search</h2><p>Fleet profiles and sightings are being rebuilt into this lighter design.</p></article></div></div></section>
+      <section id="arrivals" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">LIVE INFORMATION</span><h1>Arrival Times</h1><p>Search by stop name and see live TfL arrivals, stop letters, destinations and vehicle IDs.</p></div><form class="search-row"><span>⌕</span><input id="arrivalSearch" placeholder="Try Rye Hill Park, Victoria or London Bridge"><button>⌕</button></form><div id="arrivalResults" style="margin-top:24px"></div></div></section>
+      <section id="routes" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">EXPLORE THE NETWORK</span><h1>Routes</h1><p>Browse routes, live vehicle IDs, stops and route information.</p></div><input id="routeSearch" class="route-list-search" placeholder="Search or filter routes"><div class="cards" id="routesGrid"></div></div></section>
+      <section id="updates" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">LATEST NEWS</span><h1>Updates</h1><p>RouteFlow development, network news and product announcements.</p></div><div class="cards"><article class="update-card"><small>Design</small><h2>RouteFlow London V2</h2><p>A new responsive red, white and blue visual system for mobile, tablet and desktop.</p></article><article class="update-card"><small>Live Data</small><h2>TfL-powered arrivals</h2><p>Arrival Times and Routes continue to use live TfL endpoints with lightweight caching.</p></article><article class="update-card"><small>Coming Next</small><h2>Accounts and achievements</h2><p>Cloud favourites, user profiles, challenges and community features are planned.</p></article></div></div></section>
+      <section id="dashboard" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">YOUR ROUTEFLOW</span><h1>Dashboard</h1><p>Your favourites, searches, tracked vehicles and RouteFlow activity.</p></div><div class="cards"><article class="update-card"><h2>Favourite Stops</h2><p>Baker Street, London Bridge and Oxford Circus.</p></article><article class="update-card"><h2>Recent Searches</h2><p>Waterloo Station, Route 12 and SN12 AAB.</p></article><article class="update-card"><h2>Achievements</h2><p>Your challenges and badges will appear here.</p></article></div></div></section>
+      <section id="planner" class="page-view"><div class="inner-page planner-page"><div class="page-title"><span class="section-kicker">SMARTER JOURNEYS</span><h1>Journey Planner</h1><p>Plan a journey using places, stops, stations or postcodes and compare multiple TfL options.</p></div><form id="journeyForm" class="planner-card"><label><span>From</span><input id="journeyFrom" autocomplete="off" placeholder="Current location, stop or postcode" required></label><button id="swapJourney" class="swap-button" type="button" aria-label="Swap journey locations">⇅</button><label><span>To</span><input id="journeyTo" autocomplete="off" placeholder="Destination, stop or postcode" required></label><div class="planner-options"><label><span>Leave</span><select id="journeyWhen"><option value="now">Now</option><option value="departing">Departing later</option><option value="arriving">Arrive by</option></select></label><label><span>Preference</span><select id="journeyPreference"><option value="leasttime">Fastest</option><option value="leastwalking">Less walking</option><option value="leastinterchange">Fewer changes</option></select></label></div><button class="planner-submit" type="submit">Plan my journey</button></form><div id="journeyResults" class="journey-results"><article class="planner-empty"><span>⌘</span><h2>Where are you going?</h2><p>Enter a starting point and destination to see journey options.</p></article></div></div></section>
+      <section id="disruptions" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">NETWORK STATUS</span><h1>Disruptions</h1><p>Live service alerts, route issues and planned changes.</p></div><div class="cards"><article class="update-card"><h2>Bus network</h2><p>Live bus status is shown on the RouteFlow home screen.</p></article><article class="update-card"><h2>London Overground</h2><p>Minor delays placeholder while full multi-mode disruption data is connected.</p></article></div></div></section>
+      <section id="fleet" class="page-view"><div class="inner-page"><div class="page-title"><span class="section-kicker">VEHICLE DATABASE</span><h1>Fleet</h1><p>Search vehicle IDs, registrations, routes and saved profiles.</p></div><div class="cards"><article class="update-card"><h2>Vehicle search</h2><p>Profiles are created as live buses are discovered through route and arrival searches.</p></article></div></div></section>
     </main>
 
-    <nav class="mobile-bottom">
+    <nav class="mobile-bottom" aria-label="Mobile navigation">
       <button class="active" data-page="home"><span>⌂</span>Home</button>
       <button data-page="arrivals"><span>▣</span>Arrivals</button>
       <button data-page="planner"><span>⌘</span>Planner</button>
@@ -128,6 +143,7 @@
     </nav>
   </div>
   <script src="routeflow-redesign.js"></script>
+  <script src="planner.js"></script>
   <script src="lvf-search.js"></script>
 </body>
 </html>
