@@ -57,7 +57,7 @@
       document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;button.setAttribute('aria-expanded','false');button.focus()}});
     }
     const live=document.createElement('div');live.id='rfAnnounce';live.className='rf-announce';live.setAttribute('role','status');live.setAttribute('aria-live','polite');live.setAttribute('aria-atomic','true');document.body.append(live);
-    document.querySelectorAll('input:not([aria-label]):not([id])').forEach(input=>{if(input.placeholder)input.setAttribute('aria-label',input.placeholder)});
+    document.querySelectorAll('input:not([aria-label])').forEach(input=>{const labelled=input.id&&[...document.querySelectorAll('label[for]')].some(label=>label.htmlFor===input.id);if(!labelled&&input.placeholder)input.setAttribute('aria-label',input.placeholder)});
     document.querySelectorAll('button').forEach(button=>{if(!button.getAttribute('aria-label')&&!button.textContent.trim()&&!button.querySelector('img[alt]'))button.setAttribute('aria-label','Open section')});
     document.querySelectorAll('nav').forEach((nav,i)=>{if(!nav.getAttribute('aria-label'))nav.setAttribute('aria-label',i?'Page navigation':'Site navigation')});
   }
