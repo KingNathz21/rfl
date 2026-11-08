@@ -1,32 +1,36 @@
-# Routeflow LDN
+# RouteFlow London
 
-Phase 1 foundation for a London bus fleet intelligence website.
+RouteFlow London is a TfL-powered London bus and public-transport information website.
 
-## What is included
+## Current website capabilities
 
-- Official-style public homepage with hero banner, about section, feature previews, London network summary, sidebar navigation, global search, statistics, recent activity, and network status.
-- Login, registration, logout, password reset, profile, and role-permission UI foundations.
-- Fleet database with search, filters, sorting, pagination, and professional bus profile modal.
-- Favourite stop boards with add, rename, reorder, and 20-second refresh-ready arrivals panels.
-- Route pages, live map placeholder, sightings capture, CSV export, and previous sightings.
-- Separate admin panel covering dashboard, fleet management, CSV import, user management, analytics, settings, and audit logs.
-- PostgreSQL schema in `docs/database-schema.sql`.
+- Live TfL bus arrivals and route search, plus journey planning through TfL's public API.
+- Live network status for buses, the Tube, London Overground and the Elizabeth line.
+- Route and vehicle lookups, including live vehicle predictions where TfL provides them.
+- Personal stop favourites and vehicle watchlists saved locally in the visitor's browser.
+- Responsive desktop and mobile navigation.
+- Accessibility preferences for text scaling, increased contrast and reduced motion.
+- Keyboard skip link, visible focus indicators, labelled controls and screen-reader announcements.
+- No fabricated arrival predictions, route status, sample vehicle records or pre-populated personal favourites.
 
 ## Run locally
 
-Open `index.html` in a browser. This first version is dependency-free so it works even before Node, Next.js, PostgreSQL, Redis, and TfL API credentials are configured.
+Serve the repository root with any static web server. For example:
 
-## Recommended production stack
+```bash
+python -m http.server 8000
+```
 
-- Frontend: React + Next.js
-- Backend: Node.js + Express
-- Database: PostgreSQL
-- Authentication: JWT + bcrypt
-- Maps: Leaflet
-- Live data: TfL Unified API
-- Caching: Redis
-- Hosting: Vercel for frontend, Railway or DigitalOcean for backend/database
+Then open `http://localhost:8000`.
 
-## Next implementation step
+The site uses the TfL Unified API directly from the browser. Live data therefore depends on TfL API availability, browser connectivity and TfL's public rate limits. If a feed is unavailable, the interface reports that rather than presenting a made-up good-service status.
 
-Move the static data and interactions into a Next.js app, then add the Express API, PostgreSQL migrations, JWT authentication, TfL arrivals ingestion, and Redis-backed cache refresh jobs.
+## Personal data and privacy
+
+Favourite stops, tracked vehicle IDs and accessibility preferences are stored in the current browser using local storage. They are not synced between devices and are not user accounts. Clearing browser site data will clear these preferences.
+
+## Production deployment boundary
+
+This repository is currently a static front end. It does **not** include a deployed application server, database, secure account authentication, password-reset service, file-upload service or privileged admin API. Those features must not be represented as live until a backend and its production secrets, database, access controls, monitoring and backups have been provisioned. Never put private TfL or authentication secrets in browser JavaScript.
+
+For a multi-user production release, add a server-side API and database, implement server-managed sessions and role-based authorisation, validate and rate-limit all writes, and run automated accessibility, security and end-to-end tests before enabling account or admin features.
