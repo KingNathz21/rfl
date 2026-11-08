@@ -1,0 +1,45 @@
+/* RouteFlow London — accessibility and usability layer */
+:root{--rf-scale:1}
+html{font-size:calc(16px * var(--rf-scale));scroll-padding-top:96px}
+body{line-height:1.55}
+:focus-visible{outline:3px solid #155eef!important;outline-offset:3px!important;box-shadow:0 0 0 5px rgba(21,94,239,.16)!important}
+.skip-link{position:fixed;z-index:9999;left:16px;top:12px;padding:12px 18px;background:#0b1f3a;color:#fff;border-radius:10px;transform:translateY(-160%);font-weight:800}
+.skip-link:focus{transform:translateY(0)}
+.rf-access-button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:10px 13px;font-weight:750;min-height:44px}
+.rf-access-panel{position:fixed;z-index:1000;right:18px;top:86px;width:min(360px,calc(100vw - 36px));max-height:calc(100dvh - 110px);overflow:auto;background:#fff;color:#172033;border:1px solid #d7deea;border-radius:18px;box-shadow:0 20px 60px rgba(8,25,52,.24);padding:20px}
+.rf-access-panel[hidden]{display:none}
+.rf-access-panel h2{font-size:20px;margin:0 0 5px}
+.rf-access-panel p{color:#526078;font-size:13px;margin:0 0 16px}
+.rf-access-panel label{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid #e7eaf0;font-weight:650}
+.rf-access-panel input[type=checkbox]{width:22px;height:22px;accent-color:#155eef}
+.rf-access-panel select{max-width:145px;min-height:42px}
+.rf-access-panel button{min-height:44px;border-radius:10px;padding:9px 13px;background:#0b1f3a;color:#fff;font-weight:750}
+.rf-access-panel .rf-panel-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.rf-status-note{padding:12px 14px;border-radius:12px;background:#f3f7ff;border:1px solid #dbe7fb;color:#1d3558;font-size:13px;margin:12px 0}
+.rf-status-note[data-state=error]{background:#fff4f3;border-color:#ffd6d2;color:#8c1d18}
+.rf-live-time{font-variant-numeric:tabular-nums}
+.rf-empty{padding:20px;border:1px dashed #c7d0df;border-radius:14px;color:#526078;background:#fbfcfe}
+.rf-fav-action{min-height:42px;padding:9px 13px;border-radius:10px;border:1px solid #d8dfeb;background:#fff;color:#172033;font-weight:700}
+.rf-fav-action[aria-pressed=true]{background:#fff1f3;border-color:#f3b8c0;color:#a50f21}
+.rf-data-footnote{font-size:12px;color:#667085;margin-top:12px}
+.rf-live-row{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #e7eaf0}
+.rf-live-row:last-child{border-bottom:0}
+.rf-route-badge{background:#d71920;color:white;border-radius:8px;min-width:42px;padding:7px;text-align:center;font-weight:850}
+.rf-live-row small{display:block;color:#667085}
+.rf-live-row time{font-weight:800;white-space:nowrap}
+.rf-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.rf-toolbar input{flex:1;min-width:180px}
+.rf-pref-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rf-pref-row button{min-height:44px}
+.rf-card-list{display:grid;gap:10px}
+.rf-card{border:1px solid #e7eaf0;border-radius:14px;padding:14px;background:#fff}
+.rf-card h3{margin:0 0 4px}
+.rf-card p{margin:0;color:#667085}
+.rf-announce{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+html.rf-high-contrast{filter:contrast(1.18)}
+html.rf-large-text{--rf-scale:1.12}
+html.rf-extra-large-text{--rf-scale:1.25}
+html.rf-reduce-motion *,html.rf-reduce-motion *::before,html.rf-reduce-motion *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+@media(max-width:900px){.rf-access-button{padding:8px 10px}.rf-access-panel{top:auto;bottom:90px;right:12px}.rf-live-row{grid-template-columns:44px minmax(0,1fr) auto;gap:8px}}
+@media(forced-colors:active){.rf-access-button,.rf-fav-action,.rf-card,.rf-access-panel{border:1px solid ButtonText}.rf-route-badge{border:1px solid CanvasText}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
