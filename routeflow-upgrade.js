@@ -63,16 +63,30 @@
   }
   async function loadStatus(){
     const target=$('#statusGrid');if(!target)return;
-    try{
-      const data=await get('/Line/Mode/bus/Status');
-      const good=data.filter(line=>(line.lineStatuses?.[0]?.statusSeverity??10)===10).length;
-      const issues=data.filter(line=>(line.lineStatuses?.[0]?.statusSeverity??10)!==10);
-      const summary=issues.length?issues.length+' bus route advisories reported':'No bus route advisories reported';
-      const heading=$('.service-summary strong');if(heading)heading.textContent=summary;
-      const bus=$('[data-status="buses"]');if(bus)bus.textContent=summary;
-      setNote(target,'Live TfL bus status · '+data.length+' routes checked · updated '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}));
-      state.lastUpdated=new Date();
-    }catch{setNote(target,'TfL bus status is temporarily unavailable. Try again shortly.',true)}
+    const modes=[['Buses','bus','B'],['Tube','tube','T'],['Overground','overground','O'],['Elizabeth line','elizabeth-line','E']];
+    const results=await Promise.all(modes.map(async ([label,mode,mark])=>{try{const lines=await get('/Line/Mode/'+mode+'/Status');const issues=lines.flatMap(line=>(line.lineStatuses||[]).filter(s=>(s.statusSeverity??10)!==10).map(s=>({line:line.name,description:s.statusSeverityDescription||'Disruption'})));return {label,mark,lines,issues,ok:true}}catch{return {label,mark,lines:[],issues:[],ok:false}}}));
+    target.innerHTML='';
+    results.forEach(result=>{
+      const row=document.createElement('div');row.className='mode-status';
+      const symbol=document.createElement('span');symbol.className='mode-symbol';symbol.textContent=result.mark;
+      const copy=document.createElement('div');const name=document.createElement('strong');name.textContent=result.label;const detail=document.createElement('small');
+      const count=result.issues.length;detail.textContent=!result.ok?'Live status unavailable':count?count+' reported issue'+(count===1?'':'s'):'Good service';
+      const indicator=document.createElement('i');indicator.className=!result.ok?'warn':count?'warn':'ok';
+      copy.append(name,detail);row.append(symbol,copy,indicator);target.append(row);
+    });
+    const bus=results[0],summary=!bus.ok?'Bus status unavailable':bus.issues.length?bus.issues.length+' bus route advisories reported':'No bus route advisories reported';
+    const heading=$('.service-summary strong');if(heading)heading.textContent=summary;
+    const busText=$('[data-status="buses"]');if(busText)busText.textContent=summary;
+    const disruptions=$('#disruptions .cards');
+    if(disruptions){
+      disruptions.innerHTML='';
+      const issues=results.flatMap(r=>r.issues.map(i=>({mode:r.label,...i})));
+      if(!issues.length){const card=document.createElement('article');card.className='update-card';card.innerHTML='<h2>No current issues reported</h2><p>Live TfL mode status returned no route-level service issues for the modes checked.</p>';disruptions.append(card)}
+      issues.slice(0,60).forEach(issue=>{const card=document.createElement('article');card.className='update-card';const small=document.createElement('small');small.textContent=issue.mode.toUpperCase()+' · ROUTE '+issue.line;const h=document.createElement('h2');h.textContent=issue.description;const p=document.createElement('p');p.textContent='Live status supplied by TfL. Check again before travelling.';card.append(small,h,p);disruptions.append(card)});
+      if(results.some(r=>!r.ok)){const note=document.createElement('p');note.className='rf-status-note';note.textContent='Some mode status feeds could not be reached. Unavailable feeds are not treated as good service.';disruptions.prepend(note)}
+    }
+    setNote(target,'Live TfL service status · refreshed '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}));
+    state.lastUpdated=new Date();
   }
   async function loadHomeStop(){
     const box=$('#nearArrivals');if(!box)return;
@@ -100,7 +114,7 @@
   }
   function toggleFavourite(stop){
     const exists=state.favourites.some(s=>s.id===stop.id);
-    state.favourites=exists?state.favourites.filter(s=>s.id!==stop.id):[...state.favourites,stop].slice(0,50);persist();renderFavourites();announce(exists?'Stop removed from favourites':stop.name+' saved to favourites');loadHomeStop();
+    state.favourites=exists?state.favourites.filter(s=>s.id!==stop.id):[...state.favourites,stop].slice(0,50);persist();renderFavourites();renderDashboard();announce(exists?'Stop removed from favourites':stop.name+' saved to favourites');loadHomeStop();
   }
   function renderFavourites(){
     const box=$('.favourites-board');if(!box)return;
@@ -123,17 +137,25 @@
     try{const rows=await get('/StopPoint/'+encodeURIComponent(stop.id)+'/Arrivals');rows.sort((a,b)=>a.timeToStation-b.timeToStation);target.replaceChildren(...rows.slice(0,8).map(makeArrival));if(!rows.length)target.textContent='No arrivals currently returned by TfL.';const title=$('.stop-heading strong');if(title)title.textContent=stop.name;announce('Live arrivals loaded for '+stop.name)}
     catch{target.textContent='Could not load live arrivals for '+stop.name+'.'}
   }
+  function renderDashboard(){
+    const page=$('#dashboard');if(!page)return;const cards=$('.cards',page);if(!cards)return;cards.innerHTML='';
+    const fav=document.createElement('article');fav.className='update-card';const fh=document.createElement('h2');fh.textContent='Favourite stops';fav.append(fh);
+    if(!state.favourites.length){const p=document.createElement('p');p.textContent='No favourite stops saved yet. Save one from live arrivals.';fav.append(p)}
+    state.favourites.forEach(stop=>{const row=document.createElement('div');row.className='rf-toolbar';const label=document.createElement('strong');label.textContent=stop.name;const open=document.createElement('button');open.type='button';open.className='rf-fav-action';open.textContent='Live arrivals';open.addEventListener('click',()=>{loadFavourite(stop);document.querySelector('[data-page="home"]')?.click()});row.append(label,open);fav.append(row)});
+    const tracked=document.createElement('article');tracked.className='update-card';const th=document.createElement('h2');th.textContent='Tracked vehicles';tracked.append(th);const p=document.createElement('p');p.textContent=state.vehicles.length?state.vehicles.join(' · '):'No vehicles tracked on this device yet.';tracked.append(p);
+    const privacy=document.createElement('p');privacy.className='rf-data-footnote';privacy.textContent='Your saved lists are stored in this browser only; they are not synced to an account.';cards.append(fav,tracked,privacy);
+  }
   function renderTrackedVehicles(){
     const page=$('#fleet');if(!page)return;
     const cards=$('.cards',page);if(!cards)return;
     cards.innerHTML='';
     const intro=document.createElement('article');intro.className='update-card';intro.innerHTML='<h2>Tracked vehicles</h2><p>Save vehicle IDs from live arrivals to build a personal watchlist on this device.</p>';
     const form=document.createElement('form');form.className='rf-toolbar';form.innerHTML='<label class="rf-announce" for="rfVehicleId">Vehicle ID</label><input id="rfVehicleId" placeholder="Enter a vehicle ID" autocomplete="off" required><button class="rf-fav-action" type="submit">Track vehicle</button>';
-    form.addEventListener('submit',e=>{e.preventDefault();const input=$('#rfVehicleId',form);const id=input.value.trim().toUpperCase().replace(/\s+/g,'');if(!id)return;if(!state.vehicles.includes(id))state.vehicles.unshift(id);state.vehicles=state.vehicles.slice(0,100);persist();renderTrackedVehicles();announce('Vehicle '+id+' added to your watchlist')});
+    form.addEventListener('submit',e=>{e.preventDefault();const input=$('#rfVehicleId',form);const id=input.value.trim().toUpperCase().replace(/\s+/g,'');if(!id)return;if(!state.vehicles.includes(id))state.vehicles.unshift(id);state.vehicles=state.vehicles.slice(0,100);persist();renderTrackedVehicles();renderDashboard();announce('Vehicle '+id+' added to your watchlist')});
     cards.append(intro,form);
     if(!state.vehicles.length){const empty=document.createElement('p');empty.className='rf-empty';empty.textContent='Your watchlist is empty. Add a fleet number or vehicle ID to get started.';cards.append(empty);return}
     const list=document.createElement('div');list.className='rf-card-list';
-    state.vehicles.forEach(id=>{const card=document.createElement('article');card.className='rf-card';const h=document.createElement('h3');h.textContent=id;const p=document.createElement('p');p.textContent='Tracked on this device';const remove=document.createElement('button');remove.type='button';remove.className='rf-fav-action';remove.textContent='Stop tracking';remove.addEventListener('click',()=>{state.vehicles=state.vehicles.filter(v=>v!==id);persist();renderTrackedVehicles()});card.append(h,p,remove);list.append(card)});
+    state.vehicles.forEach(id=>{const card=document.createElement('article');card.className='rf-card';const h=document.createElement('h3');h.textContent=id;const p=document.createElement('p');p.textContent='Tracked on this device';const remove=document.createElement('button');remove.type='button';remove.className='rf-fav-action';remove.textContent='Stop tracking';remove.addEventListener('click',()=>{state.vehicles=state.vehicles.filter(v=>v!==id);persist();renderTrackedVehicles();renderDashboard()});card.append(h,p,remove);list.append(card)});
     cards.append(list);
   }
   function wireSearch(){
@@ -150,7 +172,7 @@
     const fakeJourney=$('.journey-board');if(fakeJourney){const p=$('p',fakeJourney);if(p)p.textContent='Enter your real starting point and destination in Journey Planner.';const meta=$('.journey-meta',fakeJourney);if(meta)meta.textContent='Live TfL journey options';}
   }
   function start(){
-    installAccessibility();wireSearch();wireNavigation();removeFakeCards();renderFavourites();renderTrackedVehicles();loadStatus();loadHomeStop();
+    installAccessibility();wireSearch();wireNavigation();removeFakeCards();renderFavourites();renderTrackedVehicles();renderDashboard();loadStatus();loadHomeStop();
     // Refresh real network information at a modest interval while the page is visible.
     window.setInterval(()=>{if(!document.hidden){loadStatus();loadHomeStop()}},60000);
   }
